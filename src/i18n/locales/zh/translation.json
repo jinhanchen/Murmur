@@ -1,0 +1,839 @@
+{
+  "tray": {
+    "settings": "设置...",
+    "checkUpdates": "检查更新...",
+    "copyLastTranscript": "复制最新转录",
+    "unloadModel": "卸载模型",
+    "model": "模型",
+    "quit": "退出",
+    "cancel": "取消"
+  },
+  "sidebar": {
+    "general": "通用",
+    "models": "模型",
+    "advanced": "高级",
+    "postProcessing": "后处理",
+    "history": "历史记录",
+    "debug": "调试",
+    "about": "关于"
+  },
+  "onboarding": {
+    "subtitle": "请选择一个转录模型以开始使用",
+    "recommended": "推荐",
+    "download": "下载",
+    "downloading": "下载中...",
+    "customModelDescription": "非官方支持",
+    "downloadFailed": "下载失败。请重试。",
+    "modelCard": {
+      "accuracy": "准确度",
+      "speed": "速度"
+    },
+    "models": {
+      "small": {
+        "name": "Whisper Small",
+        "description": "快速且相当准确。"
+      },
+      "medium": {
+        "name": "Whisper Medium",
+        "description": "准确度高，速度适中"
+      },
+      "turbo": {
+        "name": "Whisper Turbo",
+        "description": "准确度和速度均衡。"
+      },
+      "large": {
+        "name": "Whisper Large",
+        "description": "准确度高，但速度较慢。"
+      },
+      "parakeet-tdt-0.6b-v2": {
+        "name": "Parakeet V2",
+        "description": "仅支持英语。英语用户的最佳模型。"
+      },
+      "parakeet-tdt-0.6b-v3": {
+        "name": "Parakeet V3",
+        "description": "快速且准确"
+      },
+      "moonshine-base": {
+        "name": "Moonshine Base",
+        "description": "非常快速，仅支持英语。口音处理良好。"
+      },
+      "moonshine-tiny-streaming-en": {
+        "name": "Moonshine V2 Tiny",
+        "description": "超快速，仅支持英语"
+      },
+      "moonshine-small-streaming-en": {
+        "name": "Moonshine V2 Small",
+        "description": "快速，仅支持英语。速度与准确度的良好平衡。"
+      },
+      "moonshine-medium-streaming-en": {
+        "name": "Moonshine V2 Medium",
+        "description": "仅支持英语。高质量。"
+      },
+      "breeze-asr": {
+        "name": "Breeze ASR",
+        "description": "针对台湾国语优化。支持语码转换。"
+      },
+      "sense-voice-int8": {
+        "name": "SenseVoice",
+        "description": "非常快速。支持中文、英语、日语、韩语、粤语。"
+      },
+      "gigaam-v3-e2e-ctc": {
+        "name": "GigaAM v3",
+        "description": "俄语语音识别。快速且准确。"
+      },
+      "canary-180m-flash": {
+        "name": "Canary 180M Flash",
+        "description": "非常快速。支持英语、德语、西班牙语、法语。支持翻译。"
+      },
+      "canary-1b-v2": {
+        "name": "Canary 1B v2",
+        "description": "准确的多语言模型。25种欧洲语言。支持翻译。"
+      },
+      "cohere-int8": {
+        "name": "Cohere",
+        "description": "大型模型，速度较慢，但多语言识别非常准确。"
+      }
+    },
+    "errors": {
+      "loadModels": "无法加载可用模型",
+      "downloadModel": "模型下载失败: {{error}}"
+    },
+    "permissions": {
+      "title": "需要权限",
+      "description": "Murmur 需要一些权限才能正常工作。",
+      "microphone": {
+        "title": "麦克风访问",
+        "description": "需要听取您的语音进行转录。"
+      },
+      "accessibility": {
+        "title": "辅助功能访问",
+        "description": "需要将转录文本输入到您的应用程序中。"
+      },
+      "grant": "授予权限",
+      "granted": "已授予",
+      "waiting": "等待中...",
+      "allGranted": "全部完成！",
+      "errors": {
+        "checkFailed": "检查权限失败。请重试。",
+        "requestFailed": "请求权限失败。请重试。"
+      }
+    }
+  },
+  "modelSelector": {
+    "custom": "自定义",
+    "active": "活跃",
+    "switching": "切换中...",
+    "noModelsAvailable": "没有可用的模型",
+    "verifying": "正在验证 {{modelName}}...",
+    "verifyingGeneric": "正在验证...",
+    "extracting": "正在解压 {{modelName}}...",
+    "extractingMultiple": "正在解压 {{count}} 个模型...",
+    "extractingGeneric": "解压中...",
+    "downloading": "下载中 {{percentage}}%",
+    "downloadingMultiple": "正在下载 {{count}} 个模型...",
+    "modelReady": "模型已就绪",
+    "loading": "正在加载 {{modelName}}...",
+    "loadingGeneric": "加载中...",
+    "modelError": "模型错误",
+    "modelUnloaded": "模型已卸载",
+    "noModelDownloadRequired": "无模型 - 需要下载",
+    "deleteModel": "删除 {{modelName}}",
+    "downloadSpeed": "{{speed}} MB/s",
+    "capabilities": {
+      "languageSelection": "支持多种输入语言",
+      "multiLanguage": "多语言",
+      "translation": "可翻译为英语",
+      "translate": "翻译为英语",
+      "singleLanguage": "仅支持此语言",
+      "languageOnly": "仅 {{language}}"
+    },
+    "cancel": "取消",
+    "cancelDownload": "取消下载"
+  },
+  "settings": {
+    "modelSettings": {
+      "title": "{{model}} 设置",
+      "noSettingsNeeded": "此模型自动运行，无需配置。"
+    },
+    "models": {
+      "title": "转录模型",
+      "description": "选择转录模型或下载其他模型。不同模型提供不同的准确度和速度。",
+      "downloaded": "已下载",
+      "available": "可下载",
+      "deleteConfirm": "确定要删除 {{modelName}} 吗？您需要重新下载才能使用。",
+      "deleteActiveConfirm": "{{modelName}} 是您当前使用的模型。删除后将停止转录，直到您选择新的模型。确定要删除吗？",
+      "deleteTitle": "删除模型",
+      "filters": {
+        "all": "全部",
+        "multiLanguage": "多语言",
+        "translation": "翻译",
+        "allLanguages": "所有语言"
+      },
+      "noModelsMatch": "没有符合此筛选条件的模型。",
+      "yourModels": "已下载的模型",
+      "availableModels": "可供下载"
+    },
+    "general": {
+      "title": "通用",
+      "shortcut": {
+        "title": "Murmur 快捷键",
+        "description": "配置启动语音转文字录制的键盘快捷键",
+        "loading": "加载快捷键中...",
+        "none": "未配置快捷键",
+        "notFound": "未找到快捷键",
+        "pressKeys": "请按键...",
+        "bindings": {
+          "transcribe": {
+            "name": "转录快捷键",
+            "description": "用于录制和转录语音的键盘快捷键。"
+          },
+          "cancel": {
+            "name": "取消快捷键",
+            "description": "用于取消当前录制的键盘快捷键。"
+          },
+          "transcribe_with_post_process": {
+            "name": "后处理快捷键",
+            "description": "可选：一个专用快捷键，始终对您的转录应用 AI 后处理。"
+          }
+        },
+        "errors": {
+          "restore": "无法恢复原始快捷键",
+          "set": "无法设置快捷键: {{error}}",
+          "reset": "无法将快捷键重置为原始值"
+        }
+      },
+      "language": {
+        "title": "语言",
+        "description": "选择语音识别的语言。自动将自动确定语言，选择特定语言可以提高该语言的准确度。",
+        "descriptionUnsupported": "Parakeet 模型会自动检测语言，无需手动选择。",
+        "searchPlaceholder": "搜索语言...",
+        "noResults": "未找到语言",
+        "auto": "自动"
+      },
+      "pushToTalk": {
+        "label": "按住说话",
+        "description": "按住录制，松开停止"
+      }
+    },
+    "sound": {
+      "title": "声音",
+      "microphone": {
+        "title": "麦克风",
+        "description": "选择您偏好的麦克风设备",
+        "placeholder": "选择麦克风...",
+        "loading": "加载中..."
+      },
+      "audioFeedback": {
+        "label": "音频反馈",
+        "description": "录制开始和停止时播放声音"
+      },
+      "outputDevice": {
+        "title": "输出设备",
+        "description": "选择用于反馈声音的音频输出设备",
+        "placeholder": "选择输出设备...",
+        "loading": "加载中..."
+      },
+      "volume": {
+        "title": "音量",
+        "description": "调整音频反馈的音量"
+      }
+    },
+    "advanced": {
+      "title": "高级",
+      "groups": {
+        "app": "应用",
+        "output": "输出",
+        "transcription": "转录",
+        "history": "历史",
+        "experimental": "实验性"
+      },
+      "experimentalToggle": {
+        "label": "实验性功能",
+        "description": "启用仍在开发中的实验性功能。"
+      },
+      "lazyStreamClose": {
+        "label": "在转录之间保持麦克风开启",
+        "description": "录音停止后保持麦克风流开启30秒，减少连续转录时的延迟。激活时可能会降低蓝牙音频质量。"
+      },
+      "acceleration": {
+        "whisper": {
+          "title": "Whisper 加速",
+          "description": "Whisper 模型的硬件加速。自动模式在可用时使用 GPU（macOS 上使用 Metal，Windows/Linux 上使用 Vulkan）。"
+        },
+        "ort": {
+          "title": "ONNX 加速",
+          "description": "ONNX 模型的硬件加速（Parakeet、Canary、Moonshine 等）。Windows 上的 DirectML 为实验性功能。模型可能无法正常转录。"
+        },
+        "gpuDevice": {
+          "title": "GPU 设备",
+          "description": "选择用于 Whisper 推理的 GPU。自动选择独立 GPU。",
+          "auto": "自动"
+        }
+      },
+      "startHidden": {
+        "label": "隐藏启动",
+        "description": "启动到系统托盘而不打开窗口。"
+      },
+      "autostart": {
+        "label": "开机启动",
+        "description": "登录计算机时自动启动 Murmur。"
+      },
+      "showTrayIcon": {
+        "label": "显示托盘图标",
+        "description": "在系统托盘中显示 Murmur 图标。"
+      },
+      "overlay": {
+        "title": "悬浮窗位置",
+        "description": "在录制和转录期间显示可视反馈悬浮窗。在 Linux 上建议选择「无」。",
+        "options": {
+          "none": "无",
+          "bottom": "底部",
+          "top": "顶部"
+        }
+      },
+      "pasteMethod": {
+        "title": "粘贴方式",
+        "description": "选择文字插入方式。直接：通过系统输入模拟打字。无：跳过粘贴，仅更新历史记录/剪贴板。",
+        "options": {
+          "clipboard": "剪贴板 ({{modifier}}+V)",
+          "clipboardCtrlShiftV": "剪贴板 (Ctrl+Shift+V)",
+          "clipboardShiftInsert": "剪贴板 (Shift+Insert)",
+          "direct": "直接",
+          "none": "无",
+          "externalScript": "外部脚本"
+        },
+        "externalScriptPlaceholder": "/path/to/your/script.sh"
+      },
+      "typingTool": {
+        "title": "输入工具",
+        "description": "选择在直接粘贴方式下使用的 Linux 输入工具。Auto 会自动检测并使用系统中可用的最佳工具。",
+        "options": {
+          "auto": "Auto（推荐）"
+        }
+      },
+      "clipboardHandling": {
+        "title": "剪贴板处理",
+        "description": "不修改剪贴板将在转录后保留当前剪贴板内容。复制到剪贴板将在粘贴后将转录结果留在剪贴板中。",
+        "options": {
+          "dontModify": "不修改剪贴板",
+          "copyToClipboard": "复制到剪贴板"
+        }
+      },
+      "autoSubmit": {
+        "title": "自动提交",
+        "description": "在文本插入后自动发送所选的按键组合。macOS 上使用 Cmd+Enter，Windows/Linux 上使用 Super+Enter。",
+        "options": {
+          "off": "关闭",
+          "enter": "Enter",
+          "cmdEnter": "Cmd+Enter",
+          "superEnter": "Super+Enter",
+          "ctrlEnter": "Ctrl+Enter"
+        }
+      },
+      "translateToEnglish": {
+        "label": "翻译为英语",
+        "description": "在转录过程中自动将其他语言的语音翻译为英语。",
+        "descriptionUnsupported": "{{model}} 模型不支持翻译功能。"
+      },
+      "modelUnload": {
+        "title": "卸载模型",
+        "description": "当模型在指定时间内未使用时自动释放 GPU/CPU 内存",
+        "options": {
+          "never": "从不",
+          "immediately": "立即",
+          "min2": "2 分钟后",
+          "min5": "5 分钟后",
+          "min10": "10 分钟后",
+          "min15": "15 分钟后",
+          "hour1": "1 小时后",
+          "sec15": "15 秒后（调试）"
+        }
+      },
+      "customWords": {
+        "title": "自定义词汇",
+        "description": "添加经常被误听或拼写错误的词汇。系统将自动将发音相似的词汇修正为您列表中的词汇。",
+        "placeholder": "添加词汇",
+        "add": "添加",
+        "remove": "删除 {{word}}",
+        "duplicate": "\"{{word}}\" 已存在"
+      }
+    },
+    "postProcessing": {
+      "title": "后处理",
+      "hotkey": {
+        "title": "快捷键"
+      },
+      "api": {
+        "title": "API（兼容 OpenAI）",
+        "provider": {
+          "title": "提供商",
+          "description": "选择一个兼容 OpenAI 的提供商。"
+        },
+        "appleIntelligence": {
+          "title": "Apple Intelligence",
+          "description": "完全在设备上运行。无需 API 密钥或网络访问。",
+          "requirements": "需要运行 macOS Tahoe（26.0）或更高版本的 Apple Silicon Mac。必须在系统设置中启用 Apple Intelligence。",
+          "unavailable": "Apple Intelligence 在此设备上不可用。需要运行 macOS Tahoe（26.0）或更高版本的 Apple Silicon Mac，并在系统设置中启用 Apple Intelligence。"
+        },
+        "baseUrl": {
+          "title": "基础 URL",
+          "description": "所选提供商的 API 基础 URL。仅自定义提供商可编辑。",
+          "placeholder": "https://api.openai.com/v1"
+        },
+        "apiKey": {
+          "title": "API 密钥",
+          "description": "所选提供商的 API 密钥。",
+          "placeholder": "sk-..."
+        },
+        "model": {
+          "title": "模型",
+          "descriptionApple": "提供可选的数字令牌限制或保持默认的设备预设。",
+          "descriptionCustom": "提供自定义端点期望的模型标识符。",
+          "descriptionDefault": "选择所选提供商提供的模型。",
+          "placeholderApple": "Apple Intelligence",
+          "placeholderWithOptions": "搜索或选择模型",
+          "placeholderNoOptions": "输入模型名称",
+          "refreshModels": "刷新模型"
+        }
+      },
+      "prompts": {
+        "title": "提示词",
+        "selectedPrompt": {
+          "title": "已选提示词",
+          "description": "选择用于优化转录的模板或创建新模板。在提示词文本中使用 ${output} 来引用捕获的转录。"
+        },
+        "noPrompts": "没有可用的提示词",
+        "selectPrompt": "选择提示词",
+        "createNew": "创建新提示词",
+        "promptLabel": "提示词名称",
+        "promptLabelPlaceholder": "输入提示词名称",
+        "promptInstructions": "提示词指令",
+        "promptInstructionsPlaceholder": "编写转录后要执行的指令。示例：改进以下文本的语法和清晰度: ${output}",
+        "promptTip": "提示：使用 <code>${output}</code> 将转录文本插入到您的提示词中。",
+        "updatePrompt": "更新提示词",
+        "deletePrompt": "删除提示词",
+        "createPrompt": "创建提示词",
+        "cancel": "取消",
+        "selectToEdit": "选择上方的提示词以查看和编辑其详细信息。",
+        "createFirst": "点击上方的「创建新提示词」来创建您的第一个后处理提示词。"
+      }
+    },
+    "history": {
+      "title": "历史记录",
+      "openFolder": "打开录音文件夹",
+      "loading": "加载历史记录中...",
+      "empty": "还没有转录记录。开始录制以建立您的历史记录！",
+      "copyToClipboard": "复制转录到剪贴板",
+      "save": "保存转录",
+      "unsave": "从已保存中移除",
+      "delete": "删除条目",
+      "deleteError": "删除条目失败，请重试。",
+      "retranscribe": "重新转录",
+      "retranscribeError": "重新转录失败。请重试。",
+      "transcribing": "转录中...",
+      "transcriptionFailed": "转录失败。您可以使用重试图标重新转录。"
+    },
+    "debug": {
+      "title": "调试",
+      "logDirectory": {
+        "title": "日志目录",
+        "description": "日志文件的存储位置"
+      },
+      "logLevel": {
+        "title": "日志级别",
+        "description": "设置日志的详细程度"
+      },
+      "updateChecks": {
+        "label": "检查更新",
+        "description": "自动检查 Murmur 的新版本"
+      },
+      "soundTheme": {
+        "label": "声音主题",
+        "description": "选择录制开始和停止反馈的声音主题"
+      },
+      "wordCorrectionThreshold": {
+        "title": "词汇修正阈值",
+        "description": "自定义词汇修正的灵敏度"
+      },
+      "historyLimit": {
+        "title": "历史记录上限",
+        "description": "保留的最大历史条目数",
+        "entries": "条"
+      },
+      "recordingRetention": {
+        "title": "自动删除录音",
+        "description": "自动删除旧录音以节省空间",
+        "never": "从不",
+        "preserveLimit": "保留最新 {{count}} 条",
+        "days3": "3 天后",
+        "weeks2": "2 周后",
+        "months3": "3 个月后",
+        "placeholder": "选择保留期限..."
+      },
+      "alwaysOnMicrophone": {
+        "label": "麦克风常开",
+        "description": "保持麦克风活跃以获得更快的响应"
+      },
+      "clamshellMicrophone": {
+        "title": "合盖麦克风",
+        "description": "笔记本电脑盖子关闭时使用的麦克风"
+      },
+      "postProcessingToggle": {
+        "label": "后处理",
+        "description": "启用转录后的 AI 文本优化"
+      },
+      "muteWhileRecording": {
+        "label": "录制时静音",
+        "description": "录制期间静音系统音频"
+      },
+      "appendTrailingSpace": {
+        "label": "追加尾部空格",
+        "description": "在粘贴的转录后添加空格"
+      },
+      "keyboardImplementation": {
+        "title": "键盘实现",
+        "description": "选择键盘快捷键的后端。",
+        "bindingsReset": "键盘快捷键不兼容，已重置为默认值"
+      },
+      "paths": {
+        "appData": "应用数据:",
+        "models": "模型:",
+        "settings": "设置:"
+      },
+      "pasteDelay": {
+        "title": "粘贴延迟",
+        "description": "发送粘贴按键前的延迟（毫秒）。如果粘贴了错误的文本，请增加此值。"
+      },
+      "recordingBuffer": {
+        "title": "额外录音缓冲",
+        "description": "放开按键后继续录音的额外时间（毫秒），以捕捉尾音。0 = 无额外缓冲。"
+      }
+    },
+    "about": {
+      "title": "关于",
+      "version": {
+        "title": "版本",
+        "description": "Murmur 的当前版本"
+      },
+      "appDataDirectory": {
+        "title": "应用数据目录",
+        "description": "Murmur 存储数据的位置"
+      },
+      "sourceCode": {
+        "title": "源代码",
+        "description": "查看源代码并贡献",
+        "button": "在 GitHub 上查看"
+      }
+    }
+  },
+  "footer": {
+    "downloadingModel": "正在下载 {{model}}...",
+    "checkingUpdates": "检查更新中...",
+    "updateAvailable": "有可用更新: {{version}}",
+    "updateAvailableShort": "有可用更新",
+    "upToDate": "已是最新版本",
+    "downloadUpdate": "下载更新",
+    "restart": "重启",
+    "updateCheckingDisabled": "更新检查已禁用",
+    "downloading": "下载中... {{progress}}%",
+    "installing": "安装中...",
+    "preparing": "准备中...",
+    "checkForUpdates": "检查更新",
+    "portableUpdateTitle": "Manual update required",
+    "portableUpdateMessage": "Portable installs cannot be updated automatically. To update: download the latest NSIS installer from GitHub Releases, install it to the same folder, then copy your Data/ folder (settings, models, recordings) from the old version to the new one.",
+    "portableUpdateButton": "Open GitHub Releases"
+  },
+  "common": {
+    "loading": "加载中...",
+    "save": "保存",
+    "cancel": "取消",
+    "reset": "重置",
+    "add": "添加",
+    "remove": "移除",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "创建",
+    "update": "更新",
+    "close": "关闭",
+    "open": "打开",
+    "default": "默认",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "on": "开",
+    "off": "关",
+    "yes": "是",
+    "no": "否",
+    "noOptionsFound": "未找到选项"
+  },
+  "accessibility": {
+    "permissionsRequired": "需要辅助功能权限",
+    "permissionsDescription": "Murmur 需要辅助功能权限才能输入转录的文字。",
+    "openSettings": "打开系统设置",
+    "dismiss": "关闭"
+  },
+  "errors": {
+    "loadDirectory": "加载目录时出错: {{error}}",
+    "micPermissionDeniedTitle": "麦克风访问被拒绝",
+    "micPermissionDenied": {
+      "generic": "操作系统拒绝了麦克风访问。请在系统设置中授予麦克风权限。",
+      "windows": "在设置 → 隐私和安全性 → 麦克风（包括桌面应用访问）中启用麦克风访问。",
+      "macos": "在系统设置 → 隐私与安全性 → 麦克风中授予麦克风访问权限。",
+      "linux": "在系统的声音或隐私设置中授予麦克风访问权限。"
+    },
+    "noInputDeviceTitle": "未找到麦克风",
+    "noInputDevice": "未检测到音频输入设备。请连接麦克风或耳机后重试。",
+    "recordingFailed": "录音启动失败: {{error}}",
+    "modelLoadFailed": "加载模型失败: {{model}}",
+    "modelLoadFailedUnknown": "未知模型",
+    "pasteFailedTitle": "粘贴文本失败",
+    "pasteFailed": "无法将文本粘贴到当前活动的应用程序中。"
+  },
+  "appLanguage": {
+    "title": "应用语言",
+    "description": "更改 Murmur 界面的语言"
+  },
+  "overlay": {
+    "transcribing": "正在转录...",
+    "processing": "处理中..."
+  },
+  "home": {
+    "heroTitle": "自然说话，完美书写 — 在任何应用中",
+    "heroHint": "按住 {{key}} 开始和停止语音输入。",
+    "weeklyTitle": "最近七日口述时间",
+    "weeklyTotal": "共 {{min}} 分钟",
+    "privacy": "您的数据保持私密，全部存在本地",
+    "weekday": {
+      "0": "日",
+      "1": "一",
+      "2": "二",
+      "3": "三",
+      "4": "四",
+      "5": "五",
+      "6": "六"
+    },
+    "minutesShort": "{{min}} 分钟",
+    "stat": {
+      "totalTime": "总口述时间",
+      "words": "口述字数",
+      "saved": "节省时间",
+      "speed": "平均口述速度",
+      "estimate": "估算",
+      "wordsUnit": "字",
+      "speedUnit": "字/分"
+    },
+    "quickToggles": "快速开关",
+    "aiPolishLabel": "AI 整理",
+    "aiPolishHint": "自动补标点、去语气词，更规整但稍慢",
+    "pttLabel": "按住说话",
+    "pttHint": "开：按住录音、松开停止 · 关：轻点开始、再轻点停止",
+    "lastTranscription": "最后的转录",
+    "emptyTranscription": "还没有转录记录——按住快捷键说点什么试试。",
+    "unitMin": "分钟",
+    "unitHrMin": "小时 {{min}} 分钟",
+    "heroHintPre": "按住",
+    "heroHintPost": "开始和停止语音输入。"
+  },
+  "nav": {
+    "general": "通用",
+    "models": "语音模型",
+    "postprocess": "AI 整理",
+    "appearance": "外观",
+    "about": "关于",
+    "advanced": "高级设置",
+    "title": "设置",
+    "tutorial": "新手教程",
+    "close": "关闭"
+  },
+  "wizard": {
+    "skip": "跳过引导",
+    "close": "关闭",
+    "back": "上一步",
+    "next": "下一步",
+    "welcome": {
+      "title": "欢迎使用 Murmur",
+      "subtitle": "按住快捷键，自然说话，文字就会出现在任何应用里。\n只需一分钟，完成设置。",
+      "start": "开始设置",
+      "features": {
+        "anyApp": {
+          "title": "任意应用",
+          "desc": "微信、飞书、终端、浏览器都能用"
+        },
+        "offline": {
+          "title": "本地离线",
+          "desc": "语音在本机转写，数据不出电脑"
+        },
+        "aiCleanup": {
+          "title": "AI 整理",
+          "desc": "自动补标点、去口水词、按词典纠错"
+        }
+      }
+    },
+    "hardware": {
+      "scanningTitle": "正在分析你的电脑配置",
+      "scanningHint": "检测 CPU、内存与显卡，为你匹配最合适的模型…",
+      "doneTitle": "检测完成",
+      "tierBadge": "{{tier}}档位",
+      "recommendedReady": "已根据配置选好推荐模型",
+      "spec": {
+        "cpu": "处理器",
+        "cpuCores": "{{count}} 核",
+        "ram": "内存",
+        "gpu": "显卡",
+        "gpuDetected": "已检测",
+        "gpuIntegrated": "集成/CPU"
+      }
+    },
+    "tier": {
+      "high": "高性能",
+      "balanced": "均衡",
+      "basic": "轻量"
+    },
+    "tierBlurb": {
+      "high": "检测到独立显卡，可流畅运行高精度模型",
+      "balanced": "你的配置足以运行推荐模型，兼顾准确与速度",
+      "basic": "已为你挑选轻量模型，CPU 也能快速转写"
+    },
+    "model": {
+      "title": "选择语音模型",
+      "subtitle": "语音模型负责把你的声音转成文字，全程在本机运行。",
+      "recommendCurrent": "推荐继续使用「{{model}}」",
+      "inUse": "正在使用",
+      "recommendCurrentHint": "这是你当前的模型，最贴合你的使用习惯与配置——直接开始即可。",
+      "ready": "已就绪：{{model}}",
+      "readyHint": "可以直接开始，也可以在下方下载推荐模型。",
+      "recommendFor": "为你的「{{tier}}」配置推荐",
+      "supportsChinese": " · 支持中文",
+      "collapseOthers": "收起其他模型",
+      "showOthers": "查看其他模型（{{count}}）",
+      "selectFailed": "模型选择失败，请重试",
+      "skip": "暂时跳过"
+    },
+    "llm": {
+      "optional": "可选 · 随时可改",
+      "title": "AI 整理",
+      "subtitle": "接入大语言模型，自动补标点、去口水词、按词典纠错。\n不开启也能正常语音输入。",
+      "skipOption": "暂时不用",
+      "skipOptionHint": "直接输出原始转写，最快、最省。",
+      "enableOption": "启用并配置",
+      "enableOptionHint": "本地模型或云端 API，文字更规整。",
+      "tabLocal": "本地模型",
+      "tabLocalSub": "免费 · 私密 · 离线",
+      "tabApi": "云端 API",
+      "tabApiSub": "OpenAI / 兼容服务",
+      "fieldProvider": "服务商",
+      "fieldBaseUrl": "接口地址",
+      "fieldBaseUrlHint": "本地模型如 Ollama 填 http://localhost:11434/v1",
+      "fieldModel": "模型",
+      "modelPlaceholderWithOptions": "选择模型",
+      "modelPlaceholderNoOptions": "先填好密钥，点右侧刷新",
+      "refreshModels": "刷新模型列表"
+    },
+    "local": {
+      "checking": "正在检测本地模型服务（Ollama）…",
+      "absentTitle": "未检测到 Ollama",
+      "absentHint": "Ollama 是免费的本地大模型运行器，安装后即可离线、私密地使用 AI 整理。",
+      "download": "下载 Ollama",
+      "recheck": "已安装，重新检测",
+      "absentFallback": "不想装？切到上方「云端 API」用在线服务。",
+      "connected": "已连接 Ollama",
+      "refreshInstalled": "刷新已安装列表",
+      "recommended": "推荐",
+      "inUse": "正在使用",
+      "use": "使用",
+      "download2": "下载",
+      "manualHint": "在 Ollama 里手动安装的其他模型，点右上角刷新也能识别。",
+      "enabled": "已启用本地模型 {{model}}",
+      "installedEnabled": "已安装并启用 {{model}}",
+      "downloadFailed": "下载失败：{{error}}",
+      "models": {
+        "qwen15b": {
+          "blurb": "最轻量，核显 / CPU 也能跑"
+        },
+        "qwen3b": {
+          "blurb": "速度与质量均衡，日常首选"
+        },
+        "qwen7b": {
+          "blurb": "整理更强，建议有独立显卡"
+        }
+      },
+      "status": {
+        "preparing": "准备下载…",
+        "downloading": "下载中",
+        "pullingManifest": "读取清单…",
+        "verifying": "校验中…",
+        "writingManifest": "写入中…",
+        "success": "完成"
+      }
+    },
+    "tutorial": {
+      "readTask": "你好，我正在用 Murmur 说话。不用动键盘，开口就能把这句话变成文字。",
+      "title": "动手试一试",
+      "subtitle": "按住快捷键，照着读出下面这句话，松开即可。",
+      "readTaskLabel": "朗读任务",
+      "holdToTalk": "按住说话",
+      "status": {
+        "listening": "正在聆听你说话…",
+        "processing": "转写中…",
+        "done": "完成！文字出现了",
+        "idle": "把光标放进下框，按住快捷键朗读上面的句子"
+      },
+      "placeholder": "光标放这里，按住快捷键开始说话…",
+      "successTitle": "太棒了，你已经学会了 Murmur",
+      "successHint": "以后在任何应用里，都能这样说话打字。",
+      "tryAgain": "再试一次",
+      "noSoundHint": "没声音？确认麦克风权限，并把光标留在输入框里",
+      "finishDone": "完成，开始使用",
+      "finish": "完成"
+    }
+  },
+  "sidebarNav": {
+    "home": "首页",
+    "history": "历史记录",
+    "dictionary": "词典",
+    "settings": "设置",
+    "about": "关于"
+  },
+  "modelSwitch": {
+    "title": "切换语音模型",
+    "selectModel": "选择语音模型",
+    "downloaded": "已下载的模型",
+    "noneDownloaded": "还没有已下载的模型"
+  },
+  "appearance": {
+    "themeTitle": "主题",
+    "themeDescription": "选择浅色、深色，或跟随系统设置。",
+    "theme": {
+      "light": "浅色",
+      "dark": "深色",
+      "system": "跟随系统"
+    }
+  },
+  "history": {
+    "title": "历史记录",
+    "privacyTitle": "您的数据保持私密",
+    "privacyDescription": "你的语音口述是私密的，零数据上传——仅存储在你的设备上，无法从其他地方访问。",
+    "tabAll": "全部",
+    "tabDictation": "听写"
+  },
+  "dictionary": {
+    "title": "词典",
+    "description": "添加常用词、专有名词、人名。词条越多，AI 对模糊音的识别和纠正越准——会自动把发音相近的词替换成你的规范写法。"
+  },
+  "settingsPage": {
+    "title": "设置",
+    "general": "通用",
+    "generalSubtitle": "快捷键、麦克风、声音",
+    "speechModel": "语音模型",
+    "speechModelSubtitle": "选择或下载语音识别模型，默认使用本地模型",
+    "aiCleanup": "AI 整理（后处理）",
+    "aiCleanupSubtitle": "转录后由本地大模型整理成结构化文本，可切换本地/API",
+    "advanced": "高级",
+    "about": "关于"
+  },
+  "capsule": {
+    "cancel": "取消",
+    "confirmTranscribe": "确认转录",
+    "cancelling": "正在取消…",
+    "cancelled": "转录已取消"
+  }
+}

@@ -1,0 +1,300 @@
+/* Murmur 新手引导 — 动效样式。
+   颜色全部走主题变量（--color-logo-primary / --color-text / --color-background），
+   自动适配明暗主题。前缀 mm- 避免与全局样式冲突。 */
+
+/* ---------- 外壳进场 ---------- */
+@keyframes mm-overlay-in {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(6px);
+  }
+}
+@keyframes mm-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.mm-overlay {
+  animation: mm-overlay-in 0.35s ease forwards;
+}
+.mm-card {
+  animation: mm-card-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ---------- 步骤切换 ---------- */
+@keyframes mm-step-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mm-step {
+  animation: mm-step-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* 子元素依次浮现 */
+.mm-rise {
+  animation: mm-step-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---------- 背景：极光 + 网格 ---------- */
+@keyframes mm-aurora {
+  0% {
+    transform: translate(-10%, -10%) rotate(0deg);
+  }
+  50% {
+    transform: translate(10%, 5%) rotate(180deg);
+  }
+  100% {
+    transform: translate(-10%, -10%) rotate(360deg);
+  }
+}
+.mm-aurora {
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(
+      35% 35% at 30% 30%,
+      color-mix(in srgb, var(--color-logo-primary), transparent 55%),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 30% at 70% 60%,
+      color-mix(in srgb, #22d3ee, transparent 60%),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 30% at 60% 30%,
+      color-mix(in srgb, #818cf8, transparent 60%),
+      transparent 70%
+    );
+  filter: blur(30px);
+  opacity: 0.55;
+  animation: mm-aurora 18s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes mm-grid-pan {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 44px 44px;
+  }
+}
+.mm-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-text), transparent 92%) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-text), transparent 92%) 1px,
+      transparent 1px
+    );
+  background-size: 44px 44px;
+  animation: mm-grid-pan 9s linear infinite;
+  mask-image: radial-gradient(70% 70% at 50% 40%, #000 30%, transparent 100%);
+  pointer-events: none;
+}
+
+/* ---------- 渐变流光文字 ---------- */
+@keyframes mm-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+.mm-shimmer-text {
+  background: linear-gradient(
+    100deg,
+    var(--color-text) 30%,
+    var(--color-logo-primary) 50%,
+    var(--color-text) 70%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: mm-shimmer 3.5s linear infinite;
+}
+
+/* ---------- 雷达扫描（硬件检测） ---------- */
+@keyframes mm-radar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes mm-radar-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.mm-radar {
+  position: relative;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-logo-primary), transparent 70%);
+  overflow: hidden;
+}
+.mm-radar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    color-mix(in srgb, var(--color-logo-primary), transparent 35%) 40deg,
+    transparent 80deg
+  );
+  animation: mm-radar-spin 1.6s linear infinite;
+}
+.mm-radar-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-logo-primary), transparent 55%);
+  animation: mm-radar-pulse 1.8s ease-out infinite;
+}
+
+/* ---------- 按键脉冲（教程） ---------- */
+@keyframes mm-key-press {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--color-logo-primary), transparent 55%);
+  }
+  45% {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 color-mix(in srgb, var(--color-logo-primary), transparent 55%);
+  }
+}
+.mm-key-press {
+  animation: mm-key-press 1.8s ease-in-out infinite;
+}
+@keyframes mm-ping {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+.mm-ping {
+  animation: mm-ping 1.8s ease-out infinite;
+}
+
+/* ---------- 声波（说话） ---------- */
+@keyframes mm-wave {
+  0%,
+  100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+.mm-wave-bar {
+  transform-origin: center;
+  animation: mm-wave 1s ease-in-out infinite;
+}
+
+/* ---------- 打字机光标 ---------- */
+@keyframes mm-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.mm-caret {
+  display: inline-block;
+  width: 2px;
+  animation: mm-blink 1s step-end infinite;
+  background: var(--color-logo-primary);
+}
+
+/* ---------- 浮动粒子 ---------- */
+@keyframes mm-float {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-12px);
+    opacity: 1;
+  }
+}
+.mm-float {
+  animation: mm-float 4s ease-in-out infinite;
+}
+
+/* ---------- 进度条流动 ---------- */
+@keyframes mm-bar-flow {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 28px 0;
+  }
+}
+.mm-bar-flow {
+  background-image: linear-gradient(
+    -45deg,
+    color-mix(in srgb, #fff, transparent 75%) 25%,
+    transparent 25%,
+    transparent 50%,
+    color-mix(in srgb, #fff, transparent 75%) 50%,
+    color-mix(in srgb, #fff, transparent 75%) 75%,
+    transparent 75%
+  );
+  background-size: 28px 28px;
+  animation: mm-bar-flow 0.7s linear infinite;
+}
+
+/* 尊重「减少动态效果」系统偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .mm-overlay,
+  .mm-card,
+  .mm-step,
+  .mm-rise,
+  .mm-aurora,
+  .mm-grid,
+  .mm-shimmer-text,
+  .mm-radar::after,
+  .mm-radar-ring,
+  .mm-key-press,
+  .mm-ping,
+  .mm-wave-bar,
+  .mm-caret,
+  .mm-float,
+  .mm-bar-flow {
+    animation: none !important;
+  }
+}

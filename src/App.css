@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  /* Design tokens — 分层底色（卡片白 > 页面奶油 > 侧栏灰）+ 蓝色强调 */
+  --color-text: #1a1a1f;
+  --color-background: #ffffff; /* 卡片/表面：最亮 */
+  --color-page: #f4f4f1; /* 页面主区：奶油白 */
+  --color-sidebar: #eaebee; /* 侧栏：偏灰 */
+  --color-background-ui: #2f6bed;
+  --color-logo-primary: #2f6bed;
+  --color-logo-stroke: #1e293b;
+  --color-text-stroke: #f6f6f6;
+  --color-mid-gray: #6b7280;
+}
+
+:root {
+  /* Typography */
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 400;
+
+  /* Colors - Light Theme */
+  /* --color-text: #0f0f0f;
+  --color-background: #fbfbfb;
+  --color-logo-primary: #FAA2CA;
+  --color-logo-stroke: #382731;
+  --color-text-stroke: #f6f6f6; */
+
+  /* Typography settings */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --scrollbar-thumb: color-mix(in srgb, var(--color-text), transparent 85%);
+  --scrollbar-thumb-hover: color-mix(
+    in srgb,
+    var(--color-text),
+    transparent 70%
+  );
+
+  /* Apply colors — page uses the cream tone, cards/sidebar layer on top */
+  color: var(--color-text);
+  background-color: var(--color-page);
+}
+
+.container {
+  margin: 0;
+  padding-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Dark theme — applied when the system prefers dark (unless the user forced
+   light), and always when the user explicitly forces dark via data-theme. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-text: #f3f4f6;
+    --color-background: #1d1e24;
+    --color-page: #141519;
+    --color-sidebar: #0f1014;
+    --color-logo-primary: #5b8def;
+    --color-logo-stroke: #c7d2fe;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-text: #f3f4f6;
+  --color-background: #1d1e24;
+  --color-page: #141519;
+  --color-sidebar: #0f1014;
+  --color-logo-primary: #5b8def;
+  --color-logo-stroke: #c7d2fe;
+}
+
+/* macOS - tint native overlay scrollbar thumb */
+:root[data-platform="macos"] {
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* Custom Scrollbar - only on Windows/Linux; macOS uses native overlay scrollbars */
+:root:not([data-platform="macos"]) ::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+:root:not([data-platform="macos"]) ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:root:not([data-platform="macos"]) ::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  border-right-width: 4px;
+  border-left-width: 3px;
+  background-clip: content-box;
+  min-height: 32px;
+}
+
+:root:not([data-platform="macos"]) ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+@layer utilities {
+  .text-stroke {
+    -webkit-text-stroke: 2px var(--color-text-stroke);
+  }
+}
+
+.logo-primary {
+  fill: var(--color-logo-primary);
+}
+
+.logo-stroke {
+  fill: var(--color-logo-stroke);
+  stroke: var(--color-logo-stroke);
+  stroke-width: 1;
+}

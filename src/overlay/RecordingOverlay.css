@@ -1,0 +1,142 @@
+.recording-overlay {
+  height: 36px;
+  width: 172px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 4px 6px;
+  /* 深色带一丝紫调的底 + 内发光（梦幻感），不用 backdrop-filter（会卡） */
+  background: linear-gradient(135deg, #15161e 0%, #191525 100%);
+  border: 1px solid rgba(170, 190, 255, 0.14);
+  border-radius: 18px;
+  box-shadow:
+    inset 0 0 14px rgba(130, 150, 255, 0.14),
+    0 4px 16px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 100ms ease-out;
+  box-sizing: border-box;
+}
+
+.recording-overlay.fade-in {
+  opacity: 1;
+}
+
+.overlay-middle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.bars-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5px;
+  height: 26px;
+  /* 整组色相缓慢流动 → Siri 那种流光梦幻感（GPU 友好） */
+  animation: hue-flow 8s linear infinite;
+}
+
+@keyframes hue-flow {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.bar {
+  width: 3px;
+  min-height: 3px;
+  max-height: 24px;
+  border-radius: 99px;
+  /* 虹彩渐变：青 → 蓝 → 紫 */
+  background: linear-gradient(180deg, #7af0ff 0%, #6a8cff 48%, #c184ff 100%);
+  box-shadow: 0 0 5px rgba(130, 170, 255, 0.65);
+  transition:
+    height 70ms ease-out,
+    opacity 100ms ease-out;
+  will-change: height;
+}
+
+/* 勾/叉：保持干净白色单色 */
+.cap-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  background: transparent;
+  transition:
+    background-color 140ms ease-out,
+    color 140ms ease-out,
+    transform 90ms ease-out;
+}
+
+.cap-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.08);
+}
+
+.cap-btn:active {
+  transform: scale(0.92);
+}
+
+/* 取消反馈文字（正在取消… / 转录已取消） */
+.overlay-status {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.85);
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* 转录中：虹彩流光进度条 */
+.overlay-progress {
+  flex: 1;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+}
+
+.progress-track {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  height: 100%;
+  width: 42%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #7af0ff, #6a8cff, #c184ff);
+  box-shadow: 0 0 8px rgba(130, 170, 255, 0.6);
+  animation:
+    progress-slide 1s ease-in-out infinite,
+    hue-flow 8s linear infinite;
+}
+
+@keyframes progress-slide {
+  0% {
+    left: -42%;
+  }
+  100% {
+    left: 100%;
+  }
+}
