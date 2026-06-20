@@ -32,7 +32,7 @@ export const PAGES: PageDef[] = [
 interface SidebarProps {
   active: AppPage;
   onChange: (page: AppPage) => void;
-  onOpenSettings: () => void;
+  onOpenSettings: (section?: "general" | "about") => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -79,7 +79,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Bottom icon row — settings gear lives here (Typeless style), not in main nav */}
       <div className="mt-auto flex items-center gap-1 px-1 pt-3">
         <button
-          onClick={onOpenSettings}
+          onClick={() => onOpenSettings("general")}
           title={t("sidebarNav.settings")}
           className="p-2 rounded-lg text-text/60 hover:bg-mid-gray/10 hover:text-text transition-colors cursor-pointer"
         >
@@ -88,7 +88,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           title={t("sidebarNav.about")}
           className="p-2 rounded-lg text-text/60 hover:bg-mid-gray/10 hover:text-text transition-colors cursor-pointer"
-          onClick={onOpenSettings}
+          onClick={() => onOpenSettings("about")}
         >
           <HelpCircle size={18} />
         </button>

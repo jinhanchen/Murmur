@@ -62,9 +62,9 @@ function App() {
   const [wizardMode, setWizardMode] = useState<WizardMode | null>(null);
   const [currentPage, setCurrentPage] = useState<AppPage>("home");
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [settingsSection, setSettingsSection] = useState<"general" | "models">(
-    "general",
-  );
+  const [settingsSection, setSettingsSection] = useState<
+    "general" | "models" | "about"
+  >("general");
   const [needsModel, setNeedsModel] = useState(false);
   const { settings, updateSetting } = useSettings();
   const direction = getLanguageDirection(i18n.language);
@@ -335,7 +335,10 @@ function App() {
         <Sidebar
           active={currentPage}
           onChange={setCurrentPage}
-          onOpenSettings={() => setSettingsOpen(true)}
+          onOpenSettings={(section) => {
+            setSettingsSection(section ?? "general");
+            setSettingsOpen(true);
+          }}
         />
         {/* Scrollable content area */}
         <div className="flex-1 flex flex-col overflow-hidden">
