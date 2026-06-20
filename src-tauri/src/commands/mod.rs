@@ -194,3 +194,17 @@ pub fn initialize_shortcuts(app: AppHandle) -> Result<(), String> {
     log::info!("Shortcuts initialized successfully");
     Ok(())
 }
+
+/// Drive the transcribe pipeline from hands-free gesture mode, exactly like a
+/// push-to-talk hotkey: `active=true` starts recording (the capsule overlay appears),
+/// `active=false` stops and transcribes. Push-to-talk semantics are forced regardless
+/// of the user's toggle/PTT setting — hand-up = press, hand-down = release.
+#[specta::specta]
+#[tauri::command]
+pub fn gesture_set_recording(app: AppHandle, active: bool) -> Result<(), String> {
+    let coordinator = app
+        .try_state::<crate::TranscriptionCoordinator>()
+        .ok_or("TranscriptionCoordinator not initialized")?;
+    coordinator.send_input("transcribe", "", active, true);
+    Ok(())
+}

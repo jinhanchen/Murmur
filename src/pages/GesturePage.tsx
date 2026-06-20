@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Hand,
@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { DrawingUtils, PoseLandmarker } from "@mediapipe/tasks-vision";
 import { useGestureStore } from "@/stores/gestureStore";
-import { gestureEngine } from "@/lib/gesture/engine";
 
 const SENS_MIN = 0.6;
 const SENS_MAX = 1.4;
@@ -22,30 +21,21 @@ export const GesturePage: React.FC = () => {
   const error = useGestureStore((s) => s.error);
   const fps = useGestureStore((s) => s.fps);
   const sensitivity = useGestureStore((s) => s.sensitivity);
-  const streamTick = useGestureStore((s) => s.streamTick);
   const setEnabled = useGestureStore((s) => s.setEnabled);
   const setSensitivity = useGestureStore((s) => s.setSensitivity);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [hasPerson, setHasPerson] = useState(false);
 
-  // 把引擎里的摄像头流挂到预览 <video> 上（流变化时重挂）。
+  // 只渲染骨架「火柴人」，不显示摄像头画面（无环境、更隐私）。
+  // 镜像由 canvas 自身的 scaleX(-1) 处理 = 自拍视角。
   useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const stream = gestureEngine.getStream();
-    if (stream && v.srcObject !== stream) {
-      v.srcObject = stream;
-      v.play().catch(() => {});
-    } else if (!stream) {
-      v.srcObject = null;
+    if (!enabled) {
+      setHasPerson(false);
+      return;
     }
-  }, [streamTick, enabled, status]);
-
-  // 在预览上叠加骨架（镜像由外层容器统一处理）。
-  useEffect(() => {
-    if (!enabled) return;
     let raf = 0;
+    let last = false;
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
@@ -54,15 +44,25 @@ export const GesturePage: React.FC = () => {
     const draw = () => {
       raf = requestAnimationFrame(draw);
       const lm = useGestureStore.getState().landmarks;
+      const present = !!lm;
+      if (present !== last) {
+        last = present;
+        setHasPerson(present);
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (!lm) return;
       const near = useGestureStore.getState().handNearHead;
       const accent = near ? "#22c55e" : "#5b8def";
       du.drawConnectors(lm, PoseLandmarker.POSE_CONNECTIONS, {
-        color: "rgba(255,255,255,0.55)",
-        lineWidth: 2,
+        color: accent,
+        lineWidth: 5,
       });
-      du.drawLandmarks(lm, { color: accent, fillColor: accent, radius: 3 });
+      du.drawLandmarks(lm, {
+        color: "#ffffff",
+        fillColor: accent,
+        lineWidth: 1,
+        radius: 4,
+      });
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
@@ -129,22 +129,22 @@ export const GesturePage: React.FC = () => {
 
       {/* 预览区 */}
       <div className="rounded-2xl border border-mid-gray/15 bg-background overflow-hidden">
-        <div className="relative aspect-video bg-black/90">
-          {/* 镜像：video 与 canvas 一起翻转，骨架才对得上 */}
-          <div className="absolute inset-0" style={{ transform: "scaleX(-1)" }}>
-            <video
-              ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover"
-              muted
-              playsInline
-            />
-            <canvas
-              ref={canvasRef}
-              width={640}
-              height={480}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </div>
+        <div className="relative aspect-video bg-[#0d1015]">
+          {/* 只画骨架火柴人，不显示摄像头画面。镜像 = 自拍视角 */}
+          <canvas
+            ref={canvasRef}
+            width={640}
+            height={480}
+            className="absolute inset-0 w-full h-full object-contain"
+            style={{ transform: "scaleX(-1)" }}
+          />
+
+          {/* 检测不到人 */}
+          {enabled && status !== "error" && !hasPerson && (
+            <div className="absolute inset-0 grid place-items-center pointer-events-none">
+              <p className="text-white/40 text-sm">{t("gesture.noPerson")}</p>
+            </div>
+          )}
 
           {/* 未开启遮罩 */}
           {!enabled && (

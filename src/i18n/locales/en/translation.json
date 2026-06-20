@@ -833,10 +833,11 @@
       "desc": "Counts as release — auto-transcribes and types"
     },
     "tip": "Raise a hand to your head to start speaking; lower it to auto-transcribe and type. The live skeleton and status are shown below.",
+    "noPerson": "No one detected · step in front of the camera",
     "sensitivity": "Sensitivity",
     "sensLow": "Stricter",
     "sensHigh": "Looser",
-    "privacy": "Camera frames and detection stay entirely on your machine — nothing uploaded or recorded."
+    "privacy": "Only the skeleton is shown — never the camera image. Detection stays entirely on your machine; nothing uploaded or recorded."
   },
   "experimental": {
     "title": "Experimental features",

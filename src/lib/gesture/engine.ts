@@ -20,7 +20,6 @@ const WRIST_R = 16;
 const DETECT_INTERVAL_MS = 55; // ~18fps，够灵敏又省 CPU
 const ENTER_FRAMES = 3; // 连续命中才算「举手」（防抖）
 const EXIT_FRAMES = 4; // 连续未命中才算「放下」（防抖）
-const TRANSCRIBE_BINDING = "transcribe"; // 复用主转录绑定的整条管线
 
 const visible = (p?: NormalizedLandmark): p is NormalizedLandmark =>
   !!p && (p.visibility ?? 0) > 0.5;
@@ -66,7 +65,7 @@ class GestureEngine {
     cancelAnimationFrame(this.raf);
     // 安全收尾：若停在录音中，补一个松手，避免卡在录音态。
     if (this.recording) {
-      commands.stopMurmurKeysRecording().catch(() => {});
+      commands.gestureSetRecording(false).catch(() => {});
     }
     this.pressed = false;
     this.recording = false;
@@ -199,7 +198,8 @@ class GestureEngine {
     if (this.recording) return;
     this.recording = true;
     try {
-      await commands.startMurmurKeysRecording(TRANSCRIBE_BINDING);
+      // 等同于按下转录快捷键：弹出胶囊、开始录音（强制按住说话语义）。
+      await commands.gestureSetRecording(true);
     } catch (e) {
       this.recording = false;
       gestureActions.setError(describeError(e));
@@ -211,7 +211,8 @@ class GestureEngine {
     if (!this.recording) return;
     this.recording = false;
     try {
-      await commands.stopMurmurKeysRecording();
+      // 等同于松开快捷键：停止录音并转录。
+      await commands.gestureSetRecording(false);
     } catch (e) {
       gestureActions.setError(describeError(e));
     }
