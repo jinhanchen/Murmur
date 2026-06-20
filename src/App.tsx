@@ -21,11 +21,14 @@ import { HomePage } from "./pages/HomePage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { DictionaryPage } from "./pages/DictionaryPage";
 import { UsagePage } from "./pages/UsagePage";
+import { GesturePage } from "./pages/GesturePage";
 import { SettingsModal } from "./components/SettingsModal";
 import { NoModelModal } from "./components/NoModelModal";
+import { GestureController } from "./components/GestureController";
 import { initTheme } from "./lib/theme";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
+import { useGestureStore } from "./stores/gestureStore";
 import { commands } from "@/bindings";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 
@@ -39,6 +42,8 @@ const renderPage = (page: AppPage, onNavigate: (p: AppPage) => void) => {
       return <HomePage onNavigate={onNavigate} />;
     case "usage":
       return <UsagePage />;
+    case "gesture":
+      return <GesturePage />;
     case "history":
       return <HistoryPage />;
     case "dictionary":
@@ -69,11 +74,18 @@ function App() {
     (state) => state.refreshOutputDevices,
   );
   const hasCompletedPostOnboardingInit = useRef(false);
+  const gestureUnlocked = useGestureStore((s) => s.unlocked);
 
   useEffect(() => {
     initTheme();
     checkOnboardingStatus();
   }, []);
+
+  // If the experimental gesture feature is turned off while its tab is open,
+  // fall back to home (the tab also disappears from the sidebar).
+  useEffect(() => {
+    if (currentPage === "gesture" && !gestureUnlocked) setCurrentPage("home");
+  }, [currentPage, gestureUnlocked]);
 
   // Initialize RTL direction when language changes
   useEffect(() => {
@@ -351,6 +363,8 @@ function App() {
           }}
         />
       )}
+      {/* Hands-free gesture mode runs whenever enabled, regardless of page */}
+      <GestureController />
       {/* Fixed footer at bottom */}
       <Footer />
     </div>

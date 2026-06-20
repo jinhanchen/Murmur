@@ -8,6 +8,7 @@ import {
   Palette,
   Info,
   FlaskConical,
+  Beaker,
   GraduationCap,
 } from "lucide-react";
 import {
@@ -18,6 +19,7 @@ import {
   AboutSettings,
 } from "./settings";
 import { AppearanceSettings } from "./settings/AppearanceSettings";
+import { ExperimentalSettings } from "./settings/ExperimentalSettings";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -29,6 +31,7 @@ type SectionId =
   | "models"
   | "postprocess"
   | "appearance"
+  | "experimental"
   | "about"
   | "advanced";
 
@@ -54,6 +57,12 @@ const SECTIONS: SectionDef[] = [
     label: "nav.appearance",
     icon: Palette,
     component: AppearanceSettings,
+  },
+  {
+    id: "experimental",
+    label: "nav.experimental",
+    icon: Beaker,
+    component: ExperimentalSettings,
   },
   { id: "about", label: "nav.about", icon: Info, component: AboutSettings },
 ];

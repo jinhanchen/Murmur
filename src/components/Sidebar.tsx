@@ -5,12 +5,14 @@ import {
   History,
   BookOpen,
   Activity,
+  Hand,
   Settings,
   HelpCircle,
 } from "lucide-react";
 import murmurLogo from "../assets/murmur-logo.png";
+import { useGestureStore } from "@/stores/gestureStore";
 
-export type AppPage = "home" | "history" | "dictionary" | "usage";
+export type AppPage = "home" | "history" | "dictionary" | "usage" | "gesture";
 
 interface PageDef {
   id: AppPage;
@@ -21,6 +23,7 @@ interface PageDef {
 // label 存的是 i18n key，渲染时 t() 翻译。
 export const PAGES: PageDef[] = [
   { id: "home", label: "sidebarNav.home", icon: Home },
+  { id: "gesture", label: "sidebarNav.gesture", icon: Hand },
   { id: "usage", label: "sidebarNav.usage", icon: Activity },
   { id: "history", label: "sidebarNav.history", icon: History },
   { id: "dictionary", label: "sidebarNav.dictionary", icon: BookOpen },
@@ -38,6 +41,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenSettings,
 }) => {
   const { t } = useTranslation();
+  // 手势模式标签仅在实验性功能解锁后出现。
+  const gestureUnlocked = useGestureStore((s) => s.unlocked);
+  const visiblePages = PAGES.filter(
+    (p) => p.id !== "gesture" || gestureUnlocked,
+  );
   return (
     <div className="flex flex-col w-44 h-full border-e border-mid-gray/15 px-3 py-4 bg-[var(--color-sidebar)]">
       <div className="px-2 mb-5 flex items-center gap-2.5">
@@ -48,7 +56,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       <div className="flex flex-col gap-1">
-        {PAGES.map((page) => {
+        {visiblePages.map((page) => {
           const Icon = page.icon;
           const isActive = active === page.id;
           return (

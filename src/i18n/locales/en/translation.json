@@ -639,6 +639,7 @@
     "models": "Speech model",
     "postprocess": "AI cleanup",
     "appearance": "Appearance",
+    "experimental": "Experimental",
     "about": "About",
     "advanced": "Advanced",
     "title": "Settings",
@@ -802,7 +803,56 @@
     "dictionary": "Dictionary",
     "settings": "Settings",
     "about": "About",
-    "usage": "Usage"
+    "usage": "Usage",
+    "gesture": "Hands-free"
+  },
+  "gesture": {
+    "title": "Hands-free mode",
+    "subtitle": "Turn on your camera and let body-pose detection read your gestures — raise a hand to your head to start speaking, lower it to transcribe. No keyboard, ever.",
+    "enable": "Enable hands-free mode",
+    "retry": "Retry",
+    "previewOffHint": "Once on, the camera opens and watches for a hand raised to your head to dictate hands-free. Everything is processed locally.",
+    "status": {
+      "off": "Off",
+      "starting": "Starting camera…",
+      "idle": "Ready · raise a hand to start",
+      "armed": "Recording · lower your hand to finish",
+      "error": "Camera unavailable"
+    },
+    "error": {
+      "denied": "Camera access was denied. In Windows Settings → Privacy & security → Camera, allow desktop apps to access your camera, then retry.",
+      "missing": "No camera detected. Connect a camera and retry.",
+      "busy": "The camera is in use by another app. Close it and retry."
+    },
+    "howUp": {
+      "title": "Hand to your head",
+      "desc": "Open palm or fist — both count as push-to-talk"
+    },
+    "howDown": {
+      "title": "Lower your hand",
+      "desc": "Counts as release — auto-transcribes and types"
+    },
+    "tip": "Raise a hand to your head to start speaking; lower it to auto-transcribe and type. The live skeleton and status are shown below.",
+    "sensitivity": "Sensitivity",
+    "sensLow": "Stricter",
+    "sensHigh": "Looser",
+    "privacy": "Camera frames and detection stay entirely on your machine — nothing uploaded or recorded."
+  },
+  "experimental": {
+    "title": "Experimental features",
+    "intro": "Early features that may not be fully stable yet. Changes take effect immediately.",
+    "badge": "Experimental",
+    "downloading": "Downloading detection model…",
+    "ready": "On · the “Hands-free” tab now appears in the sidebar",
+    "error": "Download failed: {{error}}. Check your connection and retry.",
+    "requirements": "Requires a webcam · first time downloads a ~6MB detection model",
+    "gesture": {
+      "title": "Gesture control",
+      "desc": "Turn on the camera and use body-pose detection: raise a hand to your head to speak, lower it to auto-transcribe — no keyboard at all.",
+      "step1": "Hand to your head",
+      "step2": "Speak",
+      "step3": "Lower to transcribe"
+    }
   },
   "modelSwitch": {
     "title": "Switch speech model",
