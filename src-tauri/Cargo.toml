@@ -1,6 +1,6 @@
 [package]
 name = "murmur"
-version = "0.8.3"
+version = "0.8.4"
 description = "Murmur"
 authors = ["jinhanchen"]
 edition = "2021"
