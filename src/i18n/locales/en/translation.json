@@ -597,7 +597,7 @@
     "processing": "Processing..."
   },
   "home": {
-    "heroTitle": "Speak — and the words land in any app",
+    "heroTitle": "Murmur — a whole new level of efficiency!",
     "heroHint": "Hold {{key}} to start and stop voice input.",
     "weeklyTitle": "Last 7 days",
     "weeklyTotal": "{{n}} words total",
@@ -642,7 +642,7 @@
     "about": "About",
     "advanced": "Advanced",
     "title": "Settings",
-    "tutorial": "Tutorial",
+    "tutorial": "Setup guide",
     "close": "Close"
   },
   "wizard": {

@@ -108,9 +108,12 @@ function App() {
     }
   }, [onboardingStep]);
 
-  // Allow re-opening the tutorial from Settings (decoupled via a window event).
+  // Allow re-running the full onboarding from Settings (decoupled via a window event).
+  // Open "full" (welcome→hardware→model→llm→tutorial) so users can replay the whole
+  // guided setup. A reinstall doesn't reset the first-run flag or remove models, so this
+  // is the only way an existing user can see the model/LLM steps again.
   useEffect(() => {
-    const handler = () => setWizardMode("tutorial");
+    const handler = () => setWizardMode("full");
     window.addEventListener("open-onboarding", handler);
     return () => window.removeEventListener("open-onboarding", handler);
   }, []);

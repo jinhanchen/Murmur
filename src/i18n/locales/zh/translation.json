@@ -597,7 +597,7 @@
     "processing": "处理中..."
   },
   "home": {
-    "heroTitle": "动动嘴，文字就落进任何应用",
+    "heroTitle": "Murmur，带来全新效率体验！",
     "heroHint": "按住 {{key}} 开始和停止语音输入。",
     "weeklyTitle": "最近七日口述字数",
     "weeklyTotal": "共 {{n}} 字",
@@ -642,7 +642,7 @@
     "about": "关于",
     "advanced": "高级设置",
     "title": "设置",
-    "tutorial": "新手教程",
+    "tutorial": "新手引导",
     "close": "关闭"
   },
   "wizard": {
