@@ -8,11 +8,105 @@ import {
   ShieldCheck,
   Lightbulb,
 } from "lucide-react";
-import { DrawingUtils, PoseLandmarker } from "@mediapipe/tasks-vision";
+import type { NormalizedLandmark } from "@mediapipe/tasks-vision";
 import { useGestureStore } from "@/stores/gestureStore";
 
 const SENS_MIN = 0.6;
 const SENS_MAX = 1.4;
+
+// 自绘「火柴人」：单一颜色、粗圆四肢、圆脑袋、大关节点。比 MediaPipe 细线骨架更有趣。
+function drawStickFigure(
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement,
+  lm: NormalizedLandmark[],
+  color: string,
+) {
+  const W = canvas.width;
+  const H = canvas.height;
+  type Pt = { x: number; y: number; v: number } | null;
+  const P = (i: number): Pt =>
+    lm[i] ? { x: lm[i].x * W, y: lm[i].y * H, v: lm[i].visibility ?? 0 } : null;
+  const vis = (p: Pt): p is { x: number; y: number; v: number } =>
+    !!p && p.v > 0.5;
+  const mid = (a: Pt, b: Pt): Pt =>
+    a && b ? { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, v: Math.min(a.v, b.v) } : null;
+
+  const nose = P(0),
+    earL = P(7),
+    earR = P(8),
+    shL = P(11),
+    shR = P(12),
+    elL = P(13),
+    elR = P(14),
+    wrL = P(15),
+    wrR = P(16),
+    hipL = P(23),
+    hipR = P(24),
+    knL = P(25),
+    knR = P(26),
+    anL = P(27),
+    anR = P(28);
+  const shM = mid(shL, shR);
+  const hipM = mid(hipL, hipR);
+
+  const thick = Math.max(12, W * 0.026);
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+  ctx.lineWidth = thick;
+
+  const seg = (a: Pt, b: Pt) => {
+    if (vis(a) && vis(b)) {
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+  };
+  // 躯干
+  seg(shL, shR);
+  seg(shM, hipM);
+  seg(hipL, hipR);
+  // 颈
+  seg(shM, nose);
+  // 手臂
+  seg(shL, elL);
+  seg(elL, wrL);
+  seg(shR, elR);
+  seg(elR, wrR);
+  // 腿
+  seg(hipL, knL);
+  seg(knL, anL);
+  seg(hipR, knR);
+  seg(knR, anR);
+
+  // 关节大圆点（填补转角，更圆润）
+  const jr = thick * 0.5;
+  const joint = (p: Pt) => {
+    if (vis(p)) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, jr, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  };
+  [shL, shR, elL, elR, wrL, wrR, hipL, hipR, knL, knR, anL, anR].forEach(joint);
+
+  // 圆脑袋
+  if (vis(nose)) {
+    let hr = thick * 1.7;
+    let cx = nose.x;
+    let cy = nose.y;
+    if (vis(earL) && vis(earR)) {
+      hr = Math.max(hr, Math.hypot(earL.x - earR.x, earL.y - earR.y) * 0.75);
+      cx = (earL.x + earR.x) / 2;
+      cy = (earL.y + earR.y) / 2;
+    }
+    ctx.beginPath();
+    ctx.arc(cx, cy, hr, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
 
 export const GesturePage: React.FC = () => {
   const { t } = useTranslation();
@@ -39,7 +133,6 @@ export const GesturePage: React.FC = () => {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
-    const du = new DrawingUtils(ctx);
 
     const draw = () => {
       raf = requestAnimationFrame(draw);
@@ -52,17 +145,7 @@ export const GesturePage: React.FC = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (!lm) return;
       const near = useGestureStore.getState().handNearHead;
-      const accent = near ? "#22c55e" : "#5b8def";
-      du.drawConnectors(lm, PoseLandmarker.POSE_CONNECTIONS, {
-        color: accent,
-        lineWidth: 5,
-      });
-      du.drawLandmarks(lm, {
-        color: "#ffffff",
-        fillColor: accent,
-        lineWidth: 1,
-        radius: 4,
-      });
+      drawStickFigure(ctx, canvas, lm, near ? "#22c55e" : "#5b8def");
     };
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
