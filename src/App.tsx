@@ -34,7 +34,8 @@ import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 
 type OnboardingStep = "accessibility" | "done";
 
-const ONBOARDING_DONE_KEY = "murmur_onboarding_completed_v1";
+// Bumped v1→v2 so the refreshed onboarding re-runs once for existing installs.
+const ONBOARDING_DONE_KEY = "murmur_onboarding_completed_v2";
 
 const renderPage = (page: AppPage, onNavigate: (p: AppPage) => void) => {
   switch (page) {

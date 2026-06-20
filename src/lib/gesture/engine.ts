@@ -63,9 +63,9 @@ class GestureEngine {
   stop(): void {
     this.running = false;
     cancelAnimationFrame(this.raf);
-    // 安全收尾：若停在录音中，补一个松手，避免卡在录音态。
+    // 安全收尾：若停在录音中，补一次轻点停止，避免卡在录音态。
     if (this.recording) {
-      commands.gestureSetRecording(false).catch(() => {});
+      commands.gestureTap().catch(() => {});
     }
     this.pressed = false;
     this.recording = false;
@@ -186,34 +186,22 @@ class GestureEngine {
 
     if (!this.pressed && this.enterCount >= ENTER_FRAMES) {
       this.pressed = true;
-      void this.onPress();
+      void this.onTap(); // 举手 = 轻点一次（toggle）
     } else if (this.pressed && this.exitCount >= EXIT_FRAMES) {
-      this.pressed = false;
-      void this.onRelease();
+      this.pressed = false; // 放下手：仅复位边沿检测，不触发动作
     }
   }
 
-  private async onPress(): Promise<void> {
-    gestureActions.setStatus("armed");
-    if (this.recording) return;
-    this.recording = true;
+  private async onTap(): Promise<void> {
+    // 举手一次 = 轻点一次转录快捷键（toggle）：未录则开始（弹胶囊），正录则停止转录。
+    // 无需一直举着手——再举一次即停止。
+    const next = !this.recording;
+    this.recording = next;
+    gestureActions.setStatus(next ? "armed" : "idle");
     try {
-      // 等同于按下转录快捷键：弹出胶囊、开始录音（强制按住说话语义）。
-      await commands.gestureSetRecording(true);
+      await commands.gestureTap();
     } catch (e) {
-      this.recording = false;
-      gestureActions.setError(describeError(e));
-    }
-  }
-
-  private async onRelease(): Promise<void> {
-    gestureActions.setStatus(this.running ? "idle" : "off");
-    if (!this.recording) return;
-    this.recording = false;
-    try {
-      // 等同于松开快捷键：停止录音并转录。
-      await commands.gestureSetRecording(false);
-    } catch (e) {
+      this.recording = !next; // 回滚
       gestureActions.setError(describeError(e));
     }
   }

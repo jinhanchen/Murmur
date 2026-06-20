@@ -195,16 +195,17 @@ pub fn initialize_shortcuts(app: AppHandle) -> Result<(), String> {
     Ok(())
 }
 
-/// Drive the transcribe pipeline from hands-free gesture mode, exactly like a
-/// push-to-talk hotkey: `active=true` starts recording (the capsule overlay appears),
-/// `active=false` stops and transcribes. Push-to-talk semantics are forced regardless
-/// of the user's toggle/PTT setting — hand-up = press, hand-down = release.
+/// Hands-free gesture "tap": equivalent to a single tap of the transcribe hotkey
+/// (toggle semantics). If idle it starts recording (the capsule appears); if already
+/// recording it stops and transcribes. Raising a hand counts as one tap — the user
+/// does not need to keep the hand raised.
 #[specta::specta]
 #[tauri::command]
-pub fn gesture_set_recording(app: AppHandle, active: bool) -> Result<(), String> {
+pub fn gesture_tap(app: AppHandle) -> Result<(), String> {
     let coordinator = app
         .try_state::<crate::TranscriptionCoordinator>()
         .ok_or("TranscriptionCoordinator not initialized")?;
-    coordinator.send_input("transcribe", "", active, true);
+    // push_to_talk=false → a single press toggles (idle→record / record→stop+transcribe).
+    coordinator.send_input("transcribe", "", true, false);
     Ok(())
 }

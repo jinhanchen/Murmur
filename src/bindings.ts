@@ -420,9 +420,9 @@ async stopMurmurKeysRecording() : Promise<Result<null, string>> {
     else return { status: "error", error: e  as any };
 }
 },
-async gestureSetRecording(active: boolean) : Promise<Result<null, string>> {
+async gestureTap() : Promise<Result<null, string>> {
     try {
-    return { status: "ok", data: await TAURI_INVOKE("gesture_set_recording", { active }) };
+    return { status: "ok", data: await TAURI_INVOKE("gesture_tap") };
 } catch (e) {
     if(e instanceof Error) throw e;
     else return { status: "error", error: e  as any };

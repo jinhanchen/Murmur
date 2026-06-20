@@ -808,15 +808,15 @@
   },
   "gesture": {
     "title": "Hands-free mode",
-    "subtitle": "Turn on your camera and let body-pose detection read your gestures — raise a hand to your head to start speaking, lower it to transcribe. No keyboard, ever.",
+    "subtitle": "Turn on your camera and let body-pose detection read your gestures — raise a hand once to start recording, raise it again to transcribe. No keyboard, ever.",
     "enable": "Enable hands-free mode",
     "retry": "Retry",
-    "previewOffHint": "Once on, the camera opens and watches for a hand raised to your head to dictate hands-free. Everything is processed locally.",
+    "previewOffHint": "Once on, the camera opens and watches for a raised hand to dictate hands-free. Everything is processed locally.",
     "status": {
       "off": "Off",
       "starting": "Starting camera…",
       "idle": "Ready · raise a hand to start",
-      "armed": "Recording · lower your hand to finish",
+      "armed": "Recording · raise a hand again to finish",
       "error": "Camera unavailable"
     },
     "error": {
@@ -825,14 +825,14 @@
       "busy": "The camera is in use by another app. Close it and retry."
     },
     "howUp": {
-      "title": "Hand to your head",
-      "desc": "Open palm or fist — both count as push-to-talk"
+      "title": "Raise a hand",
+      "desc": "Open palm or fist — counts as one tap: starts recording"
     },
     "howDown": {
-      "title": "Lower your hand",
-      "desc": "Counts as release — auto-transcribes and types"
+      "title": "Raise it again",
+      "desc": "Stops recording — auto-transcribes and types into the active app"
     },
-    "tip": "Raise a hand to your head to start speaking; lower it to auto-transcribe and type. The live skeleton and status are shown below.",
+    "tip": "Raise a hand once to start speaking; raise it again to auto-transcribe and type. The skeleton turns green while recording.",
     "noPerson": "No one detected · step in front of the camera",
     "sensitivity": "Sensitivity",
     "sensLow": "Stricter",
@@ -849,10 +849,10 @@
     "requirements": "Requires a webcam · first time downloads a ~6MB detection model",
     "gesture": {
       "title": "Gesture control",
-      "desc": "Turn on the camera and use body-pose detection: raise a hand to your head to speak, lower it to auto-transcribe — no keyboard at all.",
-      "step1": "Hand to your head",
+      "desc": "Turn on the camera and use body-pose detection: raise a hand once to start recording, raise it again to stop and transcribe — no keyboard at all.",
+      "step1": "Raise to start",
       "step2": "Speak",
-      "step3": "Lower to transcribe"
+      "step3": "Raise to stop"
     }
   },
   "modelSwitch": {

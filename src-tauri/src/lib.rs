@@ -414,7 +414,7 @@ pub fn run(cli_args: CliArgs) {
             commands::ollama::ollama_list_models,
             commands::ollama::ollama_pull_model,
             commands::ollama::ollama_install,
-            commands::gesture_set_recording,
+            commands::gesture_tap,
             commands::audio::update_microphone_mode,
             commands::audio::get_microphone_mode,
             commands::audio::get_windows_microphone_permission_status,
