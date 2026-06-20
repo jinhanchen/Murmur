@@ -4,7 +4,7 @@ import {
   X,
   Cog,
   Cpu,
-  Sparkles,
+  Sparkle,
   Palette,
   Info,
   FlaskConical,
@@ -21,6 +21,7 @@ import { AppearanceSettings } from "./settings/AppearanceSettings";
 
 interface SettingsModalProps {
   onClose: () => void;
+  initialSection?: SectionId;
 }
 
 type SectionId =
@@ -45,7 +46,7 @@ const SECTIONS: SectionDef[] = [
   {
     id: "postprocess",
     label: "nav.postprocess",
-    icon: Sparkles,
+    icon: Sparkle,
     component: PostProcessingSettings,
   },
   {
@@ -64,9 +65,12 @@ const ADVANCED: SectionDef = {
   component: AdvancedSettings,
 };
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({
+  onClose,
+  initialSection,
+}) => {
   const { t } = useTranslation();
-  const [active, setActive] = useState<SectionId>("general");
+  const [active, setActive] = useState<SectionId>(initialSection ?? "general");
   const ActiveComponent =
     [...SECTIONS, ADVANCED].find((s) => s.id === active)?.component ||
     GeneralSettings;

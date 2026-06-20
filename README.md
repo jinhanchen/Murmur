@@ -26,7 +26,7 @@ An optional AI step can tidy up punctuation and remove the "ums" before the text
 
 Download the latest installer from the [Releases page](https://github.com/jinhanchen/Murmur/releases) and run it. The build is currently unsigned, so Windows may show an "unknown publisher" warning — click **More info**, then **Run anyway**.
 
-Your settings, history, and downloaded models are stored locally under `%AppData%\com.pais.handy` and are kept across updates.
+Your settings, history, and downloaded models are stored locally under `%AppData%\com.murmur.app` and are kept across updates.
 
 ## Build from source
 

@@ -35,7 +35,7 @@ impl Hotkey {
     ///
     /// # Examples
     /// ```
-    /// use handy_keys::{Hotkey, Modifiers, Key};
+    /// use murmur_keys::{Hotkey, Modifiers, Key};
     ///
     /// // With modifiers and key
     /// let hotkey = Hotkey::new(Modifiers::CMD | Modifiers::SHIFT, Key::K).unwrap();
@@ -62,14 +62,14 @@ impl Hotkey {
         self.to_string().to_lowercase()
     }
 
-    /// Format hotkey using Handy-compatible key names (lowercase with full modifier names)
+    /// Format hotkey using Murmur-compatible key names (lowercase with full modifier names)
     ///
     /// Uses platform-appropriate naming:
     /// - macOS: "command", "option", "ctrl", "shift"
     /// - Windows/Linux: "ctrl", "alt", "super", "shift"
     ///
     /// Side-specific modifiers use `_left`/`_right` suffixes.
-    pub fn to_handy_string(&self) -> String {
+    pub fn to_murmur_string(&self) -> String {
         #[cfg(target_os = "macos")]
         fn mod_names(
             mods: Modifiers,
@@ -205,7 +205,7 @@ impl FromStr for Hotkey {
     ///
     /// # Examples
     /// ```
-    /// use handy_keys::Hotkey;
+    /// use murmur_keys::Hotkey;
     ///
     /// let hotkey: Hotkey = "Cmd+Shift+K".parse().unwrap();
     /// let hotkey: Hotkey = "Ctrl+Alt+Delete".parse().unwrap();

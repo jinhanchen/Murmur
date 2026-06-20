@@ -120,9 +120,12 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
   }
 
   // Horizontal layout (default)
+  // gap-4 guarantees breathing room between the description and the control even
+  // when the text is wide; the control wrapper gets shrink-0 so it never gets
+  // crushed against the text (see DictionaryPage add-word row).
   const horizontalContainerClasses = grouped
-    ? "flex items-center justify-between px-4 p-2"
-    : "flex items-center justify-between px-4 p-2 rounded-lg border border-mid-gray/20";
+    ? "flex items-center justify-between gap-4 px-4 p-2"
+    : "flex items-center justify-between gap-4 px-4 p-2 rounded-lg border border-mid-gray/20";
 
   if (descriptionMode === "tooltip") {
     return (
@@ -173,14 +176,14 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
             </div>
           </div>
         </div>
-        <div className="relative">{children}</div>
+        <div className="relative shrink-0">{children}</div>
       </div>
     );
   }
 
   return (
     <div className={horizontalContainerClasses}>
-      <div className="max-w-2/3">
+      <div className="max-w-2/3 min-w-0">
         <h3 className={`text-sm font-medium ${disabled ? "opacity-50" : ""}`}>
           {title}
         </h3>
@@ -188,7 +191,7 @@ export const SettingContainer: React.FC<SettingContainerProps> = ({
           {description}
         </p>
       </div>
-      <div className="relative">{children}</div>
+      <div className="relative shrink-0">{children}</div>
     </div>
   );
 };

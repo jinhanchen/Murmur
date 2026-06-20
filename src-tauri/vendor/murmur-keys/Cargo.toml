@@ -11,7 +11,7 @@
 
 [package]
 edition = "2021"
-name = "handy-keys"
+name = "murmur-keys"
 version = "0.2.4"
 build = false
 autolib = false
@@ -20,7 +20,7 @@ autoexamples = false
 autotests = false
 autobenches = false
 description = "Cross-platform global keyboard shortcuts library"
-documentation = "https://docs.rs/handy-keys"
+documentation = "https://docs.rs/murmur-keys"
 readme = "README.md"
 keywords = [
     "keyboard",
@@ -34,10 +34,10 @@ categories = [
     "os",
 ]
 license = "MIT"
-repository = "https://github.com/handy-computer/handy-keys"
+repository = "https://github.com/handy-computer/murmur-keys"
 
 [lib]
-name = "handy_keys"
+name = "murmur_keys"
 path = "src/lib.rs"
 
 [[example]]

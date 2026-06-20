@@ -175,7 +175,7 @@ const capitalizeKey = (key: string): string => {
  */
 /**
  * OS-aware display name for the "super" modifier (the physical Win/Cmd/Meta key).
- * Handy stores it cross-platform as "super"; show users the name they expect.
+ * Murmur stores it cross-platform as "super"; show users the name they expect.
  */
 const displayModifier = (name: string, osType: OSType): string | null => {
   switch (name) {

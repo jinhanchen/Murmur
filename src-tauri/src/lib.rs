@@ -320,6 +320,13 @@ pub fn run(cli_args: CliArgs) {
     // Detect portable mode before anything else
     portable::init();
 
+    // One-time, idempotent copy of legacy (com.pais.handy) app data into the new
+    // (com.murmur.app) dir. MUST run here — before the log plugin and settings
+    // store write their own files into the new dir during setup() — otherwise the
+    // new dir looks non-empty and the migration would be silently skipped on the
+    // exact upgrade it exists for. Never moves/deletes the old data; never panics.
+    portable::migrate_legacy_app_data_eager();
+
     // Parse console logging directives from RUST_LOG, falling back to info-level logging
     // when the variable is unset
     let console_filter = build_console_filter();
@@ -374,8 +381,8 @@ pub fn run(cli_args: CliArgs) {
             shortcut::change_ort_accelerator_setting,
             shortcut::change_whisper_gpu_device,
             shortcut::get_available_accelerators,
-            shortcut::handy_keys::start_handy_keys_recording,
-            shortcut::handy_keys::stop_handy_keys_recording,
+            shortcut::murmur_keys::start_murmur_keys_recording,
+            shortcut::murmur_keys::stop_murmur_keys_recording,
             trigger_update_check,
             show_main_window_command,
             commands::cancel_operation,
@@ -406,6 +413,7 @@ pub fn run(cli_args: CliArgs) {
             commands::ollama::ollama_status,
             commands::ollama::ollama_list_models,
             commands::ollama::ollama_pull_model,
+            commands::ollama::ollama_install,
             commands::audio::update_microphone_mode,
             commands::audio::get_microphone_mode,
             commands::audio::get_windows_microphone_permission_status,
@@ -465,11 +473,11 @@ pub fn run(cli_args: CliArgs) {
                     Target::new(if let Some(data_dir) = portable::data_dir() {
                         TargetKind::Folder {
                             path: data_dir.join("logs"),
-                            file_name: Some("handy".into()),
+                            file_name: Some("murmur".into()),
                         }
                     } else {
                         TargetKind::LogDir {
-                            file_name: Some("handy".into()),
+                            file_name: Some("murmur".into()),
                         }
                     })
                     .filter(|metadata| {
@@ -519,8 +527,9 @@ pub fn run(cli_args: CliArgs) {
             let mut win_builder =
                 tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::App("/".into()))
                     .title("Murmur")
-                    .inner_size(960.0, 680.0)
-                    .min_inner_size(560.0, 460.0)
+                    .inner_size(1180.0, 820.0)
+                    .min_inner_size(900.0, 640.0)
+                    .center()
                     .resizable(true)
                     .maximizable(true)
                     .visible(false);

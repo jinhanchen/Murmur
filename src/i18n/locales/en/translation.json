@@ -597,10 +597,10 @@
     "processing": "Processing..."
   },
   "home": {
-    "heroTitle": "Speak naturally, write perfectly — in any app",
+    "heroTitle": "Speak — and the words land in any app",
     "heroHint": "Hold {{key}} to start and stop voice input.",
     "weeklyTitle": "Last 7 days",
-    "weeklyTotal": "{{min}} min total",
+    "weeklyTotal": "{{n}} words total",
     "privacy": "Your data stays private — all stored locally",
     "weekday": {
       "0": "Sun",
@@ -631,7 +631,8 @@
     "unitMin": "min",
     "unitHrMin": "hr {{min}} min",
     "heroHintPre": "Hold",
-    "heroHintPost": "to start and stop voice input."
+    "heroHintPost": "to start and stop voice input.",
+    "wordsShort": "{{n}} words"
   },
   "nav": {
     "general": "General",
@@ -695,12 +696,13 @@
     },
     "model": {
       "title": "Choose a speech model",
-      "subtitle": "The speech model turns your voice into text, all running locally on your machine.",
+      "subtitle": "The speech model turns your voice into text, entirely on your own machine — offline, nothing uploaded.",
       "recommendCurrent": "Recommend continuing with “{{model}}”",
       "inUse": "In use",
       "recommendCurrentHint": "This is your current model and best fits your habits and setup — just get started.",
-      "ready": "Ready: {{model}}",
-      "readyHint": "You're good to go, or download a recommended model below.",
+      "ready": "“{{model}}” is installed — you're ready to go",
+      "readyHint": "You can switch models anytime in Settings, or grab a better fit.",
+      "downloadHint": "Once it finishes downloading you can continue. A model downloads just once, then works offline.",
       "recommendFor": "Recommended for your {{tier}} setup",
       "supportsChinese": " · Supports Chinese",
       "collapseOthers": "Hide other models",
@@ -732,6 +734,14 @@
       "checking": "Detecting local model service (Ollama)…",
       "absentTitle": "Ollama not detected",
       "absentHint": "Ollama is a free local LLM runner. Once installed, you can use AI cleanup offline and privately.",
+      "install": "Install Ollama for me",
+      "installHint": "We'll download and install the official Ollama automatically, then connect — no need to leave this screen.",
+      "installDownloading": "Downloading installer {{pct}}%",
+      "installInstalling": "Installing…",
+      "installWaiting": "Almost there, connecting to Ollama…",
+      "installFailed": "Auto-install failed: {{error}}",
+      "installLaunched": "Installer launched — click “re-check” once it finishes to connect.",
+      "manualDownload": "Manual download",
       "download": "Download Ollama",
       "recheck": "Installed it — re-check",
       "absentFallback": "Don't want to install it? Switch to “Cloud API” above to use an online service.",
@@ -791,7 +801,8 @@
     "history": "History",
     "dictionary": "Dictionary",
     "settings": "Settings",
-    "about": "About"
+    "about": "About",
+    "usage": "Usage"
   },
   "modelSwitch": {
     "title": "Switch speech model",
@@ -835,5 +846,34 @@
     "confirmTranscribe": "Confirm transcription",
     "cancelling": "Cancelling…",
     "cancelled": "Transcription cancelled"
+  },
+  "usage": {
+    "title": "Usage",
+    "streak": "Streak",
+    "thisWeek": "This week",
+    "total": "Total",
+    "daysVal": "{{n}}d"
+  },
+  "usagePage": {
+    "title": "Usage history",
+    "subtitle": "Understand your voice-input habits",
+    "totalWords": "Total words",
+    "totalTime": "Total dictation",
+    "avgSpeed": "Avg. speed",
+    "streak": "Day streak",
+    "count": "Transcriptions",
+    "saved": "Time saved",
+    "activeDays": "Active days",
+    "last30": "Last 30 days",
+    "last7": "Last 7 days",
+    "speedUnit": "wpm",
+    "empty": "No dictation yet — hold the hotkey and speak to get started."
+  },
+  "noModel": {
+    "title": "Download a speech model",
+    "subtitle": "Murmur needs a speech model on your device to turn your voice into text. Pick one to download:",
+    "openSettings": "See all models",
+    "close": "Got it",
+    "recommended": "Recommended"
   }
 }

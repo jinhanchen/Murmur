@@ -1,4 +1,4 @@
-# handy-keys
+# murmur-keys
 
 Cross-platform global keyboard shortcuts library for Rust.
 
@@ -16,15 +16,15 @@ Cross-platform global keyboard shortcuts library for Rust.
 
 ```toml
 [dependencies]
-handy-keys = "0.1"
+murmur-keys = "0.1"
 ```
 
 ## Quick Start
 
 ```rust
-use handy_keys::{HotkeyManager, Hotkey, Modifiers, Key};
+use murmur_keys::{HotkeyManager, Hotkey, Modifiers, Key};
 
-fn main() -> handy_keys::Result<()> {
+fn main() -> murmur_keys::Result<()> {
     let manager = HotkeyManager::new()?;
 
     // Register using the type-safe constructor
@@ -51,7 +51,7 @@ fn main() -> handy_keys::Result<()> {
 Requires accessibility permissions. The library provides helpers to check and request access:
 
 ```rust
-use handy_keys::{check_accessibility, open_accessibility_settings};
+use murmur_keys::{check_accessibility, open_accessibility_settings};
 
 if !check_accessibility() {
     open_accessibility_settings()?;
@@ -81,7 +81,7 @@ Uses [rdev](https://crates.io/crates/rdev). On Wayland, hotkey blocking may not 
 For implementing "press a key to set hotkey" UI:
 
 ```rust
-use handy_keys::KeyboardListener;
+use murmur_keys::KeyboardListener;
 
 let listener = KeyboardListener::new()?;
 

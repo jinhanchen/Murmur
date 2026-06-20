@@ -167,7 +167,11 @@ pub enum RecordingRetentionPeriod {
 #[serde(rename_all = "snake_case")]
 pub enum KeyboardImplementation {
     Tauri,
-    HandyKeys,
+    // `serde(alias = "handy_keys")` keeps deserialization backward-compatible with
+    // existing users' persisted settings.json that still stores the legacy value;
+    // serialization emits the new "murmur_keys" value.
+    #[serde(alias = "handy_keys")]
+    MurmurKeys,
 }
 
 impl Default for KeyboardImplementation {
@@ -175,7 +179,7 @@ impl Default for KeyboardImplementation {
         #[cfg(target_os = "linux")]
         return KeyboardImplementation::Tauri;
         #[cfg(not(target_os = "linux"))]
-        return KeyboardImplementation::HandyKeys;
+        return KeyboardImplementation::MurmurKeys;
     }
 }
 
@@ -803,7 +807,7 @@ pub fn get_default_settings() -> AppSettings {
     AppSettings {
         bindings,
         push_to_talk: false,
-        audio_feedback: false,
+        audio_feedback: true,
         audio_feedback_volume: default_audio_feedback_volume(),
         sound_theme: default_sound_theme(),
         start_hidden: default_start_hidden(),
@@ -835,7 +839,7 @@ pub fn get_default_settings() -> AppSettings {
         post_process_models: default_post_process_models(),
         post_process_prompts: default_post_process_prompts(),
         post_process_selected_prompt_id: None,
-        mute_while_recording: false,
+        mute_while_recording: true,
         append_trailing_space: false,
         app_language: default_app_language(),
         experimental_enabled: false,

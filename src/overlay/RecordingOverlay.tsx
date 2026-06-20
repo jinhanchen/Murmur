@@ -147,7 +147,7 @@ const RecordingOverlay: React.FC = () => {
           <button
             className="cap-btn confirm"
             title={i18n.t("capsule.confirmTranscribe")}
-            onClick={() => commands.stopHandyKeysRecording()}
+            onClick={() => commands.stopMurmurKeysRecording()}
           >
             <Check size={15} strokeWidth={3} />
           </button>

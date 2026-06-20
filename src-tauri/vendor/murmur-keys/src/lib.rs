@@ -1,6 +1,6 @@
 //! Cross-platform global keyboard shortcuts library.
 //!
-//! `handy-keys` provides a simple way to register and listen for global keyboard
+//! `murmur-keys` provides a simple way to register and listen for global keyboard
 //! shortcuts across macOS, Windows, and Linux.
 //!
 //! # Features
@@ -17,9 +17,9 @@
 //! # Quick Start
 //!
 //! ```no_run
-//! use handy_keys::{HotkeyManager, Hotkey, Modifiers, Key};
+//! use murmur_keys::{HotkeyManager, Hotkey, Modifiers, Key};
 //!
-//! fn main() -> handy_keys::Result<()> {
+//! fn main() -> murmur_keys::Result<()> {
 //!     let manager = HotkeyManager::new()?;
 //!
 //!     // Register Cmd+Shift+K using the type-safe constructor
@@ -46,7 +46,7 @@
 //! For implementing "press a key to set hotkey" UIs, use [`KeyboardListener`]:
 //!
 //! ```no_run
-//! use handy_keys::KeyboardListener;
+//! use murmur_keys::KeyboardListener;
 //!
 //! let listener = KeyboardListener::new()?;
 //!
@@ -59,7 +59,7 @@
 //!         }
 //!     }
 //! }
-//! # Ok::<(), handy_keys::Error>(())
+//! # Ok::<(), murmur_keys::Error>(())
 //! ```
 //!
 //! # Platform Notes
@@ -71,8 +71,8 @@
 //!
 //! ```no_run
 //! # #[cfg(target_os = "macos")]
-//! # fn main() -> handy_keys::Result<()> {
-//! use handy_keys::{check_accessibility, open_accessibility_settings};
+//! # fn main() -> murmur_keys::Result<()> {
+//! use murmur_keys::{check_accessibility, open_accessibility_settings};
 //!
 //! if !check_accessibility() {
 //!     open_accessibility_settings()?;

@@ -20,7 +20,9 @@ import { Sidebar, AppPage } from "./components/Sidebar";
 import { HomePage } from "./pages/HomePage";
 import { HistoryPage } from "./pages/HistoryPage";
 import { DictionaryPage } from "./pages/DictionaryPage";
+import { UsagePage } from "./pages/UsagePage";
 import { SettingsModal } from "./components/SettingsModal";
+import { NoModelModal } from "./components/NoModelModal";
 import { initTheme } from "./lib/theme";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
@@ -35,6 +37,8 @@ const renderPage = (page: AppPage, onNavigate: (p: AppPage) => void) => {
   switch (page) {
     case "home":
       return <HomePage onNavigate={onNavigate} />;
+    case "usage":
+      return <UsagePage />;
     case "history":
       return <HistoryPage />;
     case "dictionary":
@@ -52,6 +56,10 @@ function App() {
   const [wizardMode, setWizardMode] = useState<WizardMode | null>(null);
   const [currentPage, setCurrentPage] = useState<AppPage>("home");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsSection, setSettingsSection] = useState<"general" | "models">(
+    "general",
+  );
+  const [needsModel, setNeedsModel] = useState(false);
   const { settings, updateSetting } = useSettings();
   const direction = getLanguageDirection(i18n.language);
   const refreshAudioDevices = useSettingsStore(
@@ -107,6 +115,14 @@ function App() {
     return () => window.removeEventListener("open-onboarding", handler);
   }, []);
 
+  // Backend signals when the user tries to dictate but no model is downloaded.
+  useEffect(() => {
+    const unlisten = listen("needs-model", () => setNeedsModel(true));
+    return () => {
+      unlisten.then((fn) => fn());
+    };
+  }, []);
+
   // Handle keyboard shortcuts for debug mode toggle
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -160,7 +176,7 @@ function App() {
   }, [t]);
 
   // Listen for paste failures and show a toast.
-  // The technical error detail is logged to handy.log on the Rust side
+  // The technical error detail is logged to murmur.log on the Rust side
   // (see actions.rs `error!("Failed to paste transcription: ...")`),
   // so we show a localized, user-friendly message here instead of the raw error.
   useEffect(() => {
@@ -314,10 +330,23 @@ function App() {
         </div>
       </div>
       {settingsOpen && (
-        <SettingsModal onClose={() => setSettingsOpen(false)} />
+        <SettingsModal
+          onClose={() => setSettingsOpen(false)}
+          initialSection={settingsSection}
+        />
       )}
       {wizardMode && (
         <OnboardingWizard mode={wizardMode} onClose={closeWizard} />
+      )}
+      {needsModel && (
+        <NoModelModal
+          onClose={() => setNeedsModel(false)}
+          onOpenModelSettings={() => {
+            setNeedsModel(false);
+            setSettingsSection("models");
+            setSettingsOpen(true);
+          }}
+        />
       )}
       {/* Fixed footer at bottom */}
       <Footer />

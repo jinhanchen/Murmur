@@ -77,6 +77,79 @@ pub async fn ollama_list_models() -> Result<Vec<String>, String> {
     Ok(tags.models.into_iter().map(|m| m.name).collect())
 }
 
+/// 一键安装 Ollama：下载官方安装包并静默安装（目前仅 Windows）。
+/// 下载进度通过 `ollama-install-progress` 事件上报；安装由前端轮询
+/// `ollama_status` 检测完成（Windows 版安装后会自动启动后台服务）。
+#[tauri::command]
+#[specta::specta]
+pub async fn ollama_install(app: AppHandle) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        use std::io::Write;
+
+        const SETUP_URL: &str = "https://ollama.com/download/OllamaSetup.exe";
+        let client = reqwest::Client::new();
+        let resp = client
+            .get(SETUP_URL)
+            .send()
+            .await
+            .map_err(|e| format!("下载 Ollama 失败：{e}"))?;
+        if !resp.status().is_success() {
+            return Err(format!("下载 Ollama 失败：HTTP {}", resp.status()));
+        }
+
+        let total = resp.content_length().unwrap_or(0);
+        let setup_path = std::env::temp_dir().join("OllamaSetup.exe");
+        let mut file = std::fs::File::create(&setup_path)
+            .map_err(|e| format!("写入安装包失败：{e}"))?;
+
+        let mut stream = resp.bytes_stream();
+        let mut downloaded: u64 = 0;
+        let mut last_emit = std::time::Instant::now();
+        let throttle = std::time::Duration::from_millis(150);
+        while let Some(chunk) = stream.next().await {
+            let chunk = chunk.map_err(|e| format!("下载中断：{e}"))?;
+            file.write_all(&chunk)
+                .map_err(|e| format!("写入安装包失败：{e}"))?;
+            downloaded += chunk.len() as u64;
+            if last_emit.elapsed() >= throttle {
+                let pct = if total > 0 {
+                    (downloaded as f64 / total as f64) * 100.0
+                } else {
+                    0.0
+                };
+                let _ = app.emit(
+                    "ollama-install-progress",
+                    serde_json::json!({ "phase": "downloading", "percentage": pct }),
+                );
+                last_emit = std::time::Instant::now();
+            }
+        }
+        file.flush().map_err(|e| format!("写入安装包失败：{e}"))?;
+        drop(file);
+
+        let _ = app.emit(
+            "ollama-install-progress",
+            serde_json::json!({ "phase": "installing", "percentage": 100.0 }),
+        );
+
+        // 静默安装（Inno Setup 约定参数）。若未来版本换了安装器、参数不被识别，
+        // 会自动回退到带界面的安装向导——不会失败，只是需要用户点几下。
+        std::process::Command::new(&setup_path)
+            .args(["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART"])
+            .spawn()
+            .map_err(|e| format!("启动安装程序失败：{e}"))?;
+
+        Ok(())
+    }
+
+    #[cfg(not(target_os = "windows"))]
+    {
+        let _ = app;
+        Err("自动安装目前仅支持 Windows，请手动下载安装。".to_string())
+    }
+}
+
 /// 拉取一个本地模型（POST /api/pull，流式 NDJSON）。
 /// 进度通过 `ollama-pull-progress` 事件实时上报给前端。
 #[tauri::command]

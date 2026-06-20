@@ -5,7 +5,7 @@
 //!
 //! Run with: cargo run --example record_hotkey
 
-use handy_keys::{KeyboardListener, Result};
+use murmur_keys::{KeyboardListener, Result};
 use std::time::Duration;
 
 fn main() -> Result<()> {
@@ -36,7 +36,7 @@ fn main() -> Result<()> {
             println!("[{}] {}", state, combo);
 
             // Check for Escape to exit
-            if event.key == Some(handy_keys::Key::Escape) && event.is_key_down {
+            if event.key == Some(murmur_keys::Key::Escape) && event.is_key_down {
                 println!("\nEscape pressed, exiting...");
                 break;
             }

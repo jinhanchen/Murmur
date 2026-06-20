@@ -1,9 +1,16 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Home, History, BookOpen, Settings, HelpCircle } from "lucide-react";
+import {
+  Home,
+  History,
+  BookOpen,
+  Activity,
+  Settings,
+  HelpCircle,
+} from "lucide-react";
 import murmurLogo from "../assets/murmur-logo.png";
 
-export type AppPage = "home" | "history" | "dictionary";
+export type AppPage = "home" | "history" | "dictionary" | "usage";
 
 interface PageDef {
   id: AppPage;
@@ -14,6 +21,7 @@ interface PageDef {
 // label 存的是 i18n key，渲染时 t() 翻译。
 export const PAGES: PageDef[] = [
   { id: "home", label: "sidebarNav.home", icon: Home },
+  { id: "usage", label: "sidebarNav.usage", icon: Activity },
   { id: "history", label: "sidebarNav.history", icon: History },
   { id: "dictionary", label: "sidebarNav.dictionary", icon: BookOpen },
 ];
@@ -34,15 +42,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     <div className="flex flex-col w-44 h-full border-e border-mid-gray/15 px-3 py-4 bg-[var(--color-sidebar)]">
       <div className="px-2 mb-5 flex items-center gap-2.5">
         <div className="w-9 h-9 rounded-xl bg-[#1b1c21] flex items-center justify-center shrink-0 shadow-sm">
-          <img
-            src={murmurLogo}
-            alt="Murmur"
-            className="w-7 h-7 object-contain"
-          />
+          <img src={murmurLogo} alt="Murmur" className="w-7 h-7 object-contain" />
         </div>
-        <span className="text-xl font-bold tracking-tight text-logo-primary">
-          Murmur
-        </span>
+        <span className="mm-wordmark text-2xl">Murmur</span>
       </div>
 
       <div className="flex flex-col gap-1">

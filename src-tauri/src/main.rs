@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use clap::Parser;
-use handy_app_lib::CliArgs;
+use murmur_lib::CliArgs;
 
 fn main() {
     let cli_args = CliArgs::parse();
@@ -19,5 +19,5 @@ fn main() {
     // ignore that env var. It's set via the window builders' additional_browser_args instead
     // (see lib.rs main window + overlay.rs).
 
-    handy_app_lib::run(cli_args)
+    murmur_lib::run(cli_args)
 }

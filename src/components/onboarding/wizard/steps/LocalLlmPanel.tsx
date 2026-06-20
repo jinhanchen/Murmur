@@ -98,6 +98,11 @@ export const LocalLlmPanel: React.FC<LocalLlmPanelProps> = ({ hardware }) => {
   const [pulling, setPulling] = useState<
     Record<string, { pct: number; status: string }>
   >({});
+  // 一键安装 Ollama 的进度（null = 未在安装）。phase: downloading → installing → waiting。
+  const [install, setInstall] = useState<{
+    pct: number;
+    phase: "downloading" | "installing" | "waiting";
+  } | null>(null);
 
   const tier = hardware?.tier ?? "balanced";
 
@@ -129,6 +134,66 @@ export const LocalLlmPanel: React.FC<LocalLlmPanelProps> = ({ hardware }) => {
   useEffect(() => {
     refresh();
   }, [refresh]);
+
+  // 安装完成后 Ollama 服务会自动起来，这里轮询直到检测到，再切到 ready。
+  const pollUntilRunning = useCallback(async () => {
+    for (let i = 0; i < 48; i++) {
+      await new Promise((r) => setTimeout(r, 2500));
+      try {
+        const s = await commands.ollamaStatus();
+        if (s.status === "ok" && s.data.running) {
+          setInstall(null);
+          await refresh();
+          return true;
+        }
+      } catch {
+        // 还没起来，继续轮询
+      }
+    }
+    return false;
+  }, [refresh]);
+
+  // 一键安装：下载官方安装包 → 静默安装 → 轮询直到服务就绪。
+  const handleInstall = useCallback(async () => {
+    setInstall({ pct: 0, phase: "downloading" });
+    try {
+      const res = await commands.ollamaInstall();
+      if (res.status !== "ok") {
+        setInstall(null);
+        toast.error(t("wizard.local.installFailed", { error: res.error }));
+        return;
+      }
+      setInstall({ pct: 100, phase: "waiting" });
+      const ok = await pollUntilRunning();
+      if (!ok) {
+        setInstall(null);
+        toast.message(t("wizard.local.installLaunched"));
+      }
+    } catch (e) {
+      setInstall(null);
+      toast.error(t("wizard.local.installFailed", { error: String(e) }));
+    }
+  }, [pollUntilRunning, t]);
+
+  // 安装包下载进度
+  useEffect(() => {
+    const un = listen<{ phase: string; percentage: number }>(
+      "ollama-install-progress",
+      (e) => {
+        const { phase, percentage } = e.payload;
+        setInstall((prev) => {
+          // 只在安装流程进行中更新，避免事件迟到覆盖已结束的状态。
+          if (!prev) return prev;
+          if (phase === "installing")
+            return { pct: 100, phase: "installing" };
+          return { pct: percentage, phase: "downloading" };
+        });
+      },
+    );
+    return () => {
+      un.then((f) => f());
+    };
+  }, []);
 
   // 流式拉取进度
   useEffect(() => {
@@ -214,22 +279,63 @@ export const LocalLlmPanel: React.FC<LocalLlmPanelProps> = ({ hardware }) => {
         <p className="text-xs text-mid-gray mt-1.5 max-w-xs mx-auto leading-relaxed">
           {t("wizard.local.absentHint")}
         </p>
-        <div className="flex items-center justify-center gap-2 mt-4">
-          <button
-            onClick={() => void openUrl(OLLAMA_DOWNLOAD)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-logo-primary text-white text-sm font-semibold hover:brightness-110 transition cursor-pointer"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            {t("wizard.local.download")}
-          </button>
-          <button
-            onClick={refresh}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-mid-gray/25 text-text/80 text-sm font-medium hover:bg-mid-gray/10 transition cursor-pointer"
-          >
-            <RefreshCcw className="w-3.5 h-3.5" />
-            {t("wizard.local.recheck")}
-          </button>
-        </div>
+
+        {install ? (
+          /* 安装进行中：下载进度 → 安装中 → 等待服务就绪 */
+          <div className="mt-4 max-w-xs mx-auto">
+            <div className="w-full h-1.5 bg-mid-gray/20 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-logo-primary rounded-full mm-bar-flow transition-all duration-300"
+                style={{
+                  width:
+                    install.phase === "downloading"
+                      ? `${Math.max(3, install.pct)}%`
+                      : "100%",
+                }}
+              />
+            </div>
+            <div className="flex items-center justify-center gap-1.5 text-xs text-mid-gray mt-2">
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              {install.phase === "downloading"
+                ? t("wizard.local.installDownloading", {
+                    pct: Math.round(install.pct),
+                  })
+                : install.phase === "installing"
+                  ? t("wizard.local.installInstalling")
+                  : t("wizard.local.installWaiting")}
+            </div>
+          </div>
+        ) : (
+          <>
+            <button
+              onClick={() => void handleInstall()}
+              className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl bg-logo-primary text-white text-sm font-semibold hover:brightness-110 transition cursor-pointer mt-4"
+            >
+              <Download className="w-3.5 h-3.5" />
+              {t("wizard.local.install")}
+            </button>
+            <p className="text-[11px] text-mid-gray/60 mt-2 max-w-xs mx-auto leading-relaxed">
+              {t("wizard.local.installHint")}
+            </p>
+            <div className="flex items-center justify-center gap-4 mt-3 text-[11px]">
+              <button
+                onClick={() => void openUrl(OLLAMA_DOWNLOAD)}
+                className="inline-flex items-center gap-1 text-mid-gray hover:text-text transition cursor-pointer"
+              >
+                <ExternalLink className="w-3 h-3" />
+                {t("wizard.local.manualDownload")}
+              </button>
+              <button
+                onClick={refresh}
+                className="inline-flex items-center gap-1 text-mid-gray hover:text-text transition cursor-pointer"
+              >
+                <RefreshCcw className="w-3 h-3" />
+                {t("wizard.local.recheck")}
+              </button>
+            </div>
+          </>
+        )}
+
         <p className="text-[11px] text-mid-gray/60 mt-3">
           {t("wizard.local.absentFallback")}
         </p>

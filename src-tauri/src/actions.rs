@@ -672,10 +672,24 @@ impl ShortcutAction for TranscribeAction {
                     debug!("Recording produced no audio samples; skipping persistence");
                     utils::hide_recording_overlay(&ah);
                     change_tray_icon(&ah, TrayIconState::Idle);
+                } else if !ah
+                    .state::<std::sync::Arc<crate::managers::model::ModelManager>>()
+                    .get_available_models()
+                    .iter()
+                    .any(|m| m.is_downloaded)
+                {
+                    // 没有任何已下载的语音模型 → 无法转写，发事件让前端提示去下载。
+                    debug!("No downloaded speech model; prompting user to download");
+                    let _ = ah.emit("needs-model", ());
+                    utils::hide_recording_overlay(&ah);
+                    change_tray_icon(&ah, TrayIconState::Idle);
                 } else {
                     // Save WAV concurrently with transcription
                     let sample_count = samples.len();
-                    let file_name = format!("handy-{}.wav", chrono::Utc::now().timestamp());
+                    // 真实口述时长：samples 已重采样到 16kHz，时长 = 采样数 / 16000 秒。
+                    let duration_ms =
+                        (sample_count as f64 / 16_000.0 * 1000.0).round() as i64;
+                    let file_name = format!("murmur-{}.wav", chrono::Utc::now().timestamp());
                     let wav_path = hm.recordings_dir().join(&file_name);
                     let wav_path_for_verify = wav_path.clone();
                     let samples_for_wav = samples.clone();
@@ -744,6 +758,7 @@ impl ShortcutAction for TranscribeAction {
                                     post_process,
                                     processed.post_processed_text.clone(),
                                     processed.post_process_prompt.clone(),
+                                    Some(duration_ms),
                                 ) {
                                     error!("Failed to save history entry: {}", err);
                                 }
@@ -791,6 +806,7 @@ impl ShortcutAction for TranscribeAction {
                                     post_process,
                                     None,
                                     None,
+                                    Some(duration_ms),
                                 ) {
                                     error!("Failed to save failed history entry: {}", save_err);
                                 }

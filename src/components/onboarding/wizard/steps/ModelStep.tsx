@@ -145,68 +145,54 @@ export const ModelStep: React.FC<ModelStepProps> = ({
       </div>
 
       <div className="flex-1 overflow-y-auto -mx-2 px-2">
-        {/* 推荐继续使用当前模型 */}
-        {rec.reason === "current" && rec.model && (
-          <div className="mb-4 rounded-2xl border border-logo-primary/40 bg-logo-primary/8 px-4 py-3.5 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full grid place-items-center bg-logo-primary/20 text-logo-primary shrink-0">
-              <Check className="w-5 h-5" />
-            </div>
-            <div className="min-w-0">
-              <div className="text-sm font-semibold text-text flex items-center gap-2">
-                {t("wizard.model.recommendCurrent", {
-                  model: getTranslatedModelName(rec.model, t),
-                })}
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-logo-primary text-white">
-                  {t("wizard.model.inUse")}
-                </span>
-              </div>
-              <div className="text-xs text-mid-gray mt-0.5">
-                {t("wizard.model.recommendCurrentHint")}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* 已就绪（有下载好的模型，但不是当前推荐场景） */}
-        {rec.reason !== "current" && hasReadyModel && anyDownloaded && (
-          <div className="mb-4 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full grid place-items-center bg-emerald-400/20 text-emerald-400 shrink-0">
+        {hasReadyModel ? (
+          /* 已装好模型 → 中性确认即可继续，不假设"正在使用"。
+             覆盖两种情况：当前模型已下载，或仅有其他已下载模型。 */
+          <div className="mb-4 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3.5 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full grid place-items-center bg-emerald-400/15 text-emerald-500 shrink-0">
               <Check className="w-5 h-5" />
             </div>
             <div className="min-w-0">
               <div className="text-sm font-semibold text-text">
                 {t("wizard.model.ready", {
-                  model: getTranslatedModelName(anyDownloaded as ModelInfo, t),
+                  model: getTranslatedModelName(
+                    (currentInfo ?? anyDownloaded) as ModelInfo,
+                    t,
+                  ),
                 })}
               </div>
-              <div className="text-xs text-mid-gray">
+              <div className="text-xs text-mid-gray mt-0.5">
                 {t("wizard.model.readyHint")}
               </div>
             </div>
           </div>
-        )}
-
-        {/* 主推：按配置 + 语言推荐的待下载模型 */}
-        {downloadRec && (
-          <div className="mb-2">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-logo-primary mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              {t("wizard.model.recommendFor", {
-                tier: t(`wizard.tier.${tier}`),
-              })}
-              {userLang === "zh" && t("wizard.model.supportsChinese")}
+        ) : (
+          /* 新用户：还没有任何模型 → 主推一个最贴合配置的待下载模型，
+             下载完成后即可继续。这是 onboarding 的主线动作。 */
+          downloadRec && (
+            <div className="mb-2">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-logo-primary mb-2">
+                <Sparkles className="w-3.5 h-3.5" />
+                {t("wizard.model.recommendFor", {
+                  tier: t(`wizard.tier.${tier}`),
+                })}
+                {userLang === "zh" && t("wizard.model.supportsChinese")}
+              </div>
+              <ModelCard
+                model={downloadRec}
+                variant="featured"
+                status={statusOf(downloadRec.id)}
+                disabled={isBusy}
+                onSelect={handleDownload}
+                onDownload={handleDownload}
+                downloadProgress={downloadProgress[downloadRec.id]?.percentage}
+                downloadSpeed={downloadStats[downloadRec.id]?.speed}
+              />
+              <p className="text-[11px] text-mid-gray/70 mt-2 px-0.5 leading-relaxed">
+                {t("wizard.model.downloadHint")}
+              </p>
             </div>
-            <ModelCard
-              model={downloadRec}
-              variant="featured"
-              status={statusOf(downloadRec.id)}
-              disabled={isBusy}
-              onSelect={handleDownload}
-              onDownload={handleDownload}
-              downloadProgress={downloadProgress[downloadRec.id]?.percentage}
-              downloadSpeed={downloadStats[downloadRec.id]?.speed}
-            />
-          </div>
+          )
         )}
 
         {/* 其他模型 */}

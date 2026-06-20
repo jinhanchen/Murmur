@@ -1,4 +1,4 @@
-use handy_keys::{
+use murmur_keys::{
     check_accessibility, open_accessibility_settings, Hotkey, HotkeyManager, HotkeyState, Key,
     Modifiers, Result,
 };

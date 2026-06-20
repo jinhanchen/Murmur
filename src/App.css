@@ -120,3 +120,40 @@
   stroke: var(--color-logo-stroke);
   stroke-width: 1;
 }
+
+/* 「Murmur」字标：圆润字体 + 流动渐变，活泼可爱、有动感 */
+.mm-wordmark {
+  font-family:
+    "Comfortaa", "Segoe UI Variable Display", ui-rounded, "SF Pro Rounded",
+    "Hiragino Maru Gothic ProN", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.015em;
+  background: linear-gradient(
+    100deg,
+    var(--color-logo-primary),
+    #8b5cf6,
+    #ec4899,
+    var(--color-logo-primary)
+  );
+  background-size: 260% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: mm-wordmark-flow 7s linear infinite;
+  transition: transform 0.2s ease;
+}
+.mm-wordmark:hover {
+  transform: scale(1.04) rotate(-1.5deg);
+  animation-duration: 2.5s;
+}
+@keyframes mm-wordmark-flow {
+  to {
+    background-position: 260% center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-wordmark {
+    animation: none;
+  }
+}

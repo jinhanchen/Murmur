@@ -597,10 +597,10 @@
     "processing": "处理中..."
   },
   "home": {
-    "heroTitle": "自然说话，完美书写 — 在任何应用中",
+    "heroTitle": "动动嘴，文字就落进任何应用",
     "heroHint": "按住 {{key}} 开始和停止语音输入。",
-    "weeklyTitle": "最近七日口述时间",
-    "weeklyTotal": "共 {{min}} 分钟",
+    "weeklyTitle": "最近七日口述字数",
+    "weeklyTotal": "共 {{n}} 字",
     "privacy": "您的数据保持私密，全部存在本地",
     "weekday": {
       "0": "日",
@@ -631,7 +631,8 @@
     "unitMin": "分钟",
     "unitHrMin": "小时 {{min}} 分钟",
     "heroHintPre": "按住",
-    "heroHintPost": "开始和停止语音输入。"
+    "heroHintPost": "开始和停止语音输入。",
+    "wordsShort": "{{n}} 字"
   },
   "nav": {
     "general": "通用",
@@ -695,12 +696,13 @@
     },
     "model": {
       "title": "选择语音模型",
-      "subtitle": "语音模型负责把你的声音转成文字，全程在本机运行。",
+      "subtitle": "语音模型在你的电脑本地把声音转成文字，全程离线、不上传。",
       "recommendCurrent": "推荐继续使用「{{model}}」",
       "inUse": "正在使用",
       "recommendCurrentHint": "这是你当前的模型，最贴合你的使用习惯与配置——直接开始即可。",
-      "ready": "已就绪：{{model}}",
-      "readyHint": "可以直接开始，也可以在下方下载推荐模型。",
+      "ready": "已装好「{{model}}」，可以直接开始",
+      "readyHint": "之后随时能在设置里切换，或下载更适合的模型。",
+      "downloadHint": "下载完成后即可继续。模型只需下载一次，之后离线可用。",
       "recommendFor": "为你的「{{tier}}」配置推荐",
       "supportsChinese": " · 支持中文",
       "collapseOthers": "收起其他模型",
@@ -732,6 +734,14 @@
       "checking": "正在检测本地模型服务（Ollama）…",
       "absentTitle": "未检测到 Ollama",
       "absentHint": "Ollama 是免费的本地大模型运行器，安装后即可离线、私密地使用 AI 整理。",
+      "install": "一键安装 Ollama",
+      "installHint": "我们会自动下载并安装官方 Ollama，完成后自动连接，全程无需离开。",
+      "installDownloading": "正在下载安装包 {{pct}}%",
+      "installInstalling": "正在安装…",
+      "installWaiting": "即将就绪，正在连接 Ollama…",
+      "installFailed": "自动安装失败：{{error}}",
+      "installLaunched": "安装程序已启动，装好后点「重新检测」即可连接。",
+      "manualDownload": "手动下载",
       "download": "下载 Ollama",
       "recheck": "已安装，重新检测",
       "absentFallback": "不想装？切到上方「云端 API」用在线服务。",
@@ -791,7 +801,8 @@
     "history": "历史记录",
     "dictionary": "词典",
     "settings": "设置",
-    "about": "关于"
+    "about": "关于",
+    "usage": "使用历史"
   },
   "modelSwitch": {
     "title": "切换语音模型",
@@ -835,5 +846,34 @@
     "confirmTranscribe": "确认转录",
     "cancelling": "正在取消…",
     "cancelled": "转录已取消"
+  },
+  "usage": {
+    "title": "使用历史",
+    "streak": "连续",
+    "thisWeek": "本周",
+    "total": "累计",
+    "daysVal": "{{n}} 天"
+  },
+  "usagePage": {
+    "title": "使用历史",
+    "subtitle": "了解你的语音输入习惯",
+    "totalWords": "累计字数",
+    "totalTime": "总口述时长",
+    "avgSpeed": "平均语速",
+    "streak": "连续天数",
+    "count": "转录次数",
+    "saved": "节省时间",
+    "activeDays": "活跃天数",
+    "last30": "近 30 日口述字数",
+    "last7": "近 7 日",
+    "speedUnit": "字/分",
+    "empty": "还没有口述记录——按住快捷键说点什么开始吧。"
+  },
+  "noModel": {
+    "title": "需要下载语音模型",
+    "subtitle": "Murmur 需要一个本地语音模型才能把你的声音转成文字。选一个下载：",
+    "openSettings": "查看全部模型",
+    "close": "知道了",
+    "recommended": "推荐"
   }
 }
